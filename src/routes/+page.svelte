@@ -10,7 +10,9 @@
 
 	onMount(() => {
 		const interval = setInterval(() => {
-			baby = babies[Math.floor(Math.random() * babies.length)]
+			const prev = baby ?? '';
+			const filteredBabies = babies.filter(b => b !== prev);
+			baby = filteredBabies[Math.floor(Math.random() * filteredBabies.length)];
 		}, BABY_TIMER)
 
 		return () => clearInterval(interval);

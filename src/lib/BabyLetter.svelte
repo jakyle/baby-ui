@@ -17,21 +17,27 @@
 
 	const rotations = ['-rotate-6', '-rotate-12', 'rotate-6', 'rotate-12'];
 
-	const getTextColor = () => {
-		const index = Math.floor(Math.random() * colors.length);
-		return `text-${colors[index]}-200`;
+	const getTextColor = (prev: string) => {
+		const filteredColors = colors.filter(c => c !== prev);
+		const index = Math.floor(Math.random() * filteredColors.length);
+		return `text-${filteredColors[index]}-200`;
 	};
 
-	const getTextRotation = () => {
-		const index = Math.floor(Math.random() * rotations.length);
+	const getTextRotation = (prev: string) => {
+		const filteredRotation = rotations.filter(r => r !== prev);
+		const index = Math.floor(Math.random() * filteredRotation.length);
 		return rotations[index];
 	};
 
-	const getLetter = (letter: string) => ({
-		letter,
-		color: getTextColor(),
-		rotation: getTextRotation(),
-	});
+	const getLetter = (letter: string) => {
+		const color = getTextColor(babyLetter?.color.split('-')[1] ?? '');
+		const rotation = getTextRotation(babyLetter?.rotation ?? '');
+		return {
+			letter,
+			color,
+			rotation
+		}
+	};
 
 	$: babyLetter = getLetter(letter);
 
