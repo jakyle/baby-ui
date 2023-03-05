@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	@font-face {
+		font-family: 'Whale I Tried';
+		src: url('/fonts/WhaleITriedRegular-xWq0.ttf') format('truetype');
+	}
+
+	@font-face {
+		font-family: 'Baby Blocks';
+		src: url('/fonts/BABYBLOC.TTF') format('truetype');
+	}
+}
