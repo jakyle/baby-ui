@@ -1,0 +1,17 @@
+{
+  "projectName": "babyui",
+  "version": "3.1",
+  "frontend": "javascript",
+  "javascript": {
+    "framework": "none",
+    "config": {
+      "SourceDir": "src",
+      "DistributionDir": "build",
+      "BuildCommand": "vite build",
+      "StartCommand": "vite dev"
+    }
+  },
+  "providers": [
+    "awscloudformation"
+  ]
+}
