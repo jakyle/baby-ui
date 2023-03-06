@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { feedingProgress } from "../store/feeding-store";
+	import { feedingProgress } from "./stores/feeding-store";
 </script>
 
 {#await $feedingProgress then isFeeding}

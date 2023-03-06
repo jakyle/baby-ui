@@ -2,31 +2,36 @@
 	import BabyLetter from '$lib/BabyLetter.svelte';
 	import FocusLetterWord from '$lib/FocusLetterWord.svelte';
 	import { onMount } from 'svelte';
-	const sentence = "Baby Tracker";
-	const babies = ['👶🏻', '👶🏼', '👶🏽', '👶🏾', '👶🏿']
+	import { getRandomElement } from '../util/array-helpers';
+	import { intervalMount } from '../util/svelte-helpers';
+	const sentence = 'Baby Tracker';
+	const babies = ['👶🏻', '👶🏼', '👶🏽', '👶🏾', '👶🏿'];
 	const BABY_TIMER = 1000;
+	$: baby = babies[0];
 
-	let baby = babies[0];
-
-	onMount(() => {
-		const interval = setInterval(() => {
-			const prev = baby ?? '';
-			const filteredBabies = babies.filter(b => b !== prev);
-			baby = filteredBabies[Math.floor(Math.random() * filteredBabies.length)];
-		}, BABY_TIMER)
-
-		return () => clearInterval(interval);
-	})
-
+	onMount(() =>
+		intervalMount(
+			() => (baby = getRandomElement(babies.filter((b) => b !== baby ?? ''))),
+			BABY_TIMER
+		)
+	);
 </script>
 
-<div class="bg-slate-400 h-screen w-screen flex items-center justify-center">
-	<div class="flex font-baby-block text-sm flex-col w-fit p-8 sm:p-24 rounded-lg sm:rounded-full shadow bg-slate-700 gap-4">
+<div class="h-full w-full flex items-center justify-center">
+	<div
+		class="flex font-baby-block text-3xl flex-col w-full sm:w-fit p-8 sm:px-24 sm:rounded-lg shadow bg-base-100 gap-4"
+	>
 		{#each sentence.split(' ') as word}
 			<FocusLetterWord gap="2" {word} />
 		{/each}
-		<div class="flex contrast-125 justify-center text-8xl">
-			<BabyLetter letter={baby} />
+		<div class="flex contrast-125 justify-center text-8xl sm:text-6xl">
+			<BabyLetter animation="wiggle" letter={baby} />
+		</div>
+
+		<div class="flex justify-center pt-12 relative">
+			<a class="absolute top-10 font-baby text-2xl font-base btn btn-xl" href="./feed-tracker">
+				Feed
+			</a>
 		</div>
 	</div>
 </div>

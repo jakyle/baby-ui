@@ -18,7 +18,8 @@
 		"tauri-a-dev": "tauri android dev"
 	},
 	"dependencies": {
-		"@tauri-apps/api": "^2.0.0-alpha.0"
+		"@tauri-apps/api": "^2.0.0-alpha.0",
+		"daisyui": "^2.51.3"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
