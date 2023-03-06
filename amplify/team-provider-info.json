@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-babyui-dev-212127-authRole",
+      "UnauthRoleArn": "arn:aws:iam::622170146994:role/amplify-babyui-dev-212127-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::622170146994:role/amplify-babyui-dev-212127-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-babyui-dev-212127-deployment",
+      "UnauthRoleName": "amplify-babyui-dev-212127-unauthRole",
+      "StackName": "amplify-babyui-dev-212127",
+      "StackId": "arn:aws:cloudformation:us-east-1:622170146994:stack/amplify-babyui-dev-212127/9a92b250-bbc5-11ed-a08f-0a8fee37d78b",
+      "AmplifyAppId": "d3cgp4ihx38cv5"
+    }
+  }
+}

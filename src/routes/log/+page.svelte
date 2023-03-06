@@ -1,11 +1,14 @@
 <script lang="ts">
 	import { feedingStore } from '$lib/stores/feeding-store';
-	let sup = 'sup';
+	import type { FeedingItem } from '../../api/feeding.model';
+	export let data: { feedingItems: Array<FeedingItem>};
+
+	console.log(data.feedingItems);
 </script>
 
 {#await $feedingStore then feedings}
 	<ul class="flex flex-col gap-2 p-2 w-full">
-		{#each feedings as feeding}
+		{#each data.feedingItems as feeding}
 			<li class="bg-base-100 grid py-5 px-6 rounded w-full">
 				<p class="uppercase row-start-1 col-start-1 font-extrabold">Fed Time:</p>
 				<p class="row-start-1 col-start-2">{new Date(feeding.dateTime).toLocaleString()}</p>
