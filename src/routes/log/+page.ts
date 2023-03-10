@@ -4,8 +4,7 @@ import type { FeedingItem } from '../../api/feeding.model';
 import config from '../../aws-exports';
 import { listFeedings } from '../../graphql/queries';
 
-// after your imports
-API.configure(config);
+API.configure(config)
 
 async function list() {
 	const response = await API.graphql({

@@ -4,3 +4,5 @@ export type FeedingItem = {
 	by: string,
 	oz: number
 }
+
+export type AddFeedingItem = Omit<FeedingItem, "id">;

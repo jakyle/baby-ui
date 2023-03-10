@@ -12,6 +12,7 @@ export const createFeeding = /* GraphQL */ `
     }
   }
 `;
+
 export const updateFeeding = /* GraphQL */ `
   mutation UpdateFeeding($input: UpdateFeedingInput!) {
     updateFeeding(input: $input) {
@@ -22,6 +23,7 @@ export const updateFeeding = /* GraphQL */ `
     }
   }
 `;
+
 export const deleteFeeding = /* GraphQL */ `
   mutation DeleteFeeding($input: DeleteFeedingInput!) {
     deleteFeeding(input: $input) {

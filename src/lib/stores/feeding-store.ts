@@ -1,40 +1,40 @@
 import { derived, writable } from 'svelte/store';
-import { putFeeding } from '../../api/feeding';
+import { addFeeding } from '../../api/feeding';
+import type { FeedingItem, AddFeedingItem } from '../../api/feeding.model';
 import { toLocalTime, threeHoursFromNow, getCalculatedTime } from '../../util/time-helper';
 import { Notification, pushNotification } from './notification-store';
 
-export type FeedingPayload = {
-	dateTime: string,
-	oz: number,
-	by: string
-}
-
-const getFeedingPayload = (): Array<FeedingPayload> => {
-
-	console.log(window);
+const getFeedingItem = (): Array<FeedingItem> => {
 	const feeding = localStorage.getItem('feeding');
 	const now = new Date();
-	return feeding !== null ? JSON.parse(feeding) as Array<FeedingPayload> : [{
+	return feeding !== null ? JSON.parse(feeding) as Array<FeedingItem> : [{
 		dateTime: now.toISOString(),
 		oz: 2,
-		by: 'Ya boi!'
+		by: 'Ya boi!',
+		id: "12345"
 	}];
 }
 
-export const feedingStore = writable<Array<FeedingPayload>>(getFeedingPayload());
+export const feedingStore = writable<Array<FeedingItem>>(getFeedingItem());
 
 export const sendFeeding = async (date: string, time: string, oz: number, by: string) => {
 	const dateTime = new Date(`${date}T${time}`).toISOString();
-	const payload: FeedingPayload = {
+	const payload: AddFeedingItem = {
 		dateTime,
 		oz,
 		by
 	};
 
-	if (await putFeeding(payload)) {
+	const result = await addFeeding(payload);
+	if (result) {
 		pushNotification('Feeding Success!', Notification.SUCCESS)
 		feedingStore.update(feeding => {
-			const updatedFeeding = [...feeding, payload];
+			const updatedFeeding = [...feeding, {
+				dateTime: result!.DateTime,
+				id: result.Id,
+				by: result.By!,
+				oz: result.Oz!,
+			}];
 			localStorage.setItem('feeding', JSON.stringify(updatedFeeding));
 			return updatedFeeding;
 		});

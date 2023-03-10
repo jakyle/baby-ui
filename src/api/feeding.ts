@@ -1,12 +1,27 @@
-import type { FeedingPayload } from "../lib/stores/feeding-store";
+import { API, type GraphQLResult } from "@aws-amplify/api";
+import type { AddFeedingItem }  from './feeding.model';
+import config from "../aws-exports";
+import { createFeeding } from "../graphql/mutations";
+import { v4 as uuidv4 } from 'uuid';
+import type { CreateFeedingInput, CreateFeedingMutation } from '../API';
 
-export const putFeeding = async (data: FeedingPayload): Promise<boolean> => {
-	const response = await fetch('https://cn7melfie5tpmhszjicejraxsq0rwjis.lambda-url.us-east-1.on.aws/', {
-		method: "POST",
-		// mode: "cors",  no-cors, *cors, same-origin
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify(data), // body data type must match "Content-Type" header
-	});
 
-	return response.status === 201
+
+
+
+export async function addFeeding(data: AddFeedingItem) {
+	API.configure(config)
+	const response = (await API.graphql<CreateFeedingInput>({
+		query: createFeeding,
+		variables: {
+			input: {
+				DateTime: data.dateTime,
+				Id: uuidv4(),
+				By: data.by,
+				Oz: data.oz
+			}
+		},
+	})) as GraphQLResult<CreateFeedingMutation>
+
+	return response.data?.createFeeding;
 }
