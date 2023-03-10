@@ -10,6 +10,11 @@
       "StackName": "amplify-babyui-dev-212127",
       "StackId": "arn:aws:cloudformation:us-east-1:622170146994:stack/amplify-babyui-dev-212127/9a92b250-bbc5-11ed-a08f-0a8fee37d78b",
       "AmplifyAppId": "d3cgp4ihx38cv5"
+    },
+    "categories": {
+      "auth": {
+        "babyuiad48f7d7": {}
+      }
     }
   }
 }
