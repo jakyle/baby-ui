@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{html,js,svelte,ts}'],
-
   theme: {
     extend: {
       fontFamily: {
@@ -96,5 +95,13 @@ module.exports = {
     'animate-wiggle',
     'animate-bounce-spring'
   ],
-  plugins: [require("daisyui")],
+  plugins: [
+    require("daisyui"),
+    function({addVariant}) {
+      addVariant("child", "& > *");
+      addVariant("child-hover", "& > *:hover");
+      addVariant('child-hover-siblings', '&:has(*:hover) > *:not(:hover)');
+      addVariant('grand-child-hover-siblings', '&:has(* > *:hover) > * > *:not(:hover)');
+    }
+  ],
 }

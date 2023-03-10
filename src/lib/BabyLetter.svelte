@@ -14,8 +14,8 @@
 	};
 
 	const animateMap = {
-		wiggle: 'animate-wiggle',
-		'bounce-spring': 'animate-bounce-spring'
+		wiggle: 'hover:animate-wiggle',
+		'bounce-spring': 'hover:animate-bounce-spring'
 	};
 
 	export let letter: string;
