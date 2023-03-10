@@ -20,7 +20,10 @@
 	"dependencies": {
 		"@aws-amplify/api": "^5.0.16",
 		"@tauri-apps/api": "^2.0.0-alpha.0",
+		"aws-amplify": "^5.0.18",
 		"daisyui": "^2.51.3",
+		"install": "^0.13.0",
+		"npm": "^9.6.1",
 		"uuid": "^9.0.0"
 	},
 	"devDependencies": {
