@@ -1,21 +1,42 @@
 import { derived, writable } from 'svelte/store';
-import { addFeeding } from '../../api/feeding';
+import { addFeeding, getFeedings } from '../../api/feeding';
 import type { FeedingItem, AddFeedingItem } from '../../api/feeding.model';
 import { toLocalTime, threeHoursFromNow, getCalculatedTime } from '../../util/time-helper';
 import { Notification, pushNotification } from './notification-store';
 
-const getFeedingItem = (): Array<FeedingItem> => {
-	const feeding = localStorage.getItem('feeding');
-	const now = new Date();
-	return feeding !== null ? JSON.parse(feeding) as Array<FeedingItem> : [{
-		dateTime: now.toISOString(),
-		oz: 2,
-		by: 'Ya boi!',
-		id: "12345"
-	}];
+export const feedingStore = writable<Array<FeedingItem>>([]);
+
+const getFeedingItem = async (): Promise<Array<FeedingItem>> => {
+
+	try {
+		const result = await getFeedings();
+		const feedingItems: Array<FeedingItem> = result.data?.listFeedings?.items?.map((item) => ({
+			id: item?.Id ?? '',
+			by: item?.By ?? '',
+			oz: item?.Oz ?? 0,
+			dateTime: item?.DateTime ?? ''
+		})) ?? [];
+
+		feedingItems.sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime());
+
+		return feedingItems;
+	} catch (error) {
+		console.log(error);
+		const feeding = localStorage.getItem('feeding');
+		const now = new Date();
+		return feeding !== null ? JSON.parse(feeding) as Array<FeedingItem> : [{
+			dateTime: now.toISOString(),
+			oz: 2,
+			by: 'Ya boi!',
+			id: "12345"
+		}];
+	}
 }
 
-export const feedingStore = writable<Array<FeedingItem>>(getFeedingItem());
+export const setFeedingData = async (): Promise<void> =>  {
+	feedingStore.set(await getFeedingItem());
+}
+
 
 export const sendFeeding = async (date: string, time: string, oz: number, by: string) => {
 	const dateTime = new Date(`${date}T${time}`).toISOString();
@@ -29,12 +50,17 @@ export const sendFeeding = async (date: string, time: string, oz: number, by: st
 	if (result) {
 		pushNotification('Feeding Success!', Notification.SUCCESS)
 		feedingStore.update(feeding => {
-			const updatedFeeding = [...feeding, {
+			let updatedFeeding = [...feeding, {
 				dateTime: result!.DateTime,
 				id: result.Id,
 				by: result.By!,
 				oz: result.Oz!,
 			}];
+
+			updatedFeeding.sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime());
+
+			console.log(updatedFeeding);
+
 			localStorage.setItem('feeding', JSON.stringify(updatedFeeding));
 			return updatedFeeding;
 		});

@@ -4,8 +4,9 @@ import type { AddFeedingItem }  from './feeding.model';
 import config from "../aws-exports";
 import { createFeeding } from "../graphql/mutations";
 import { v4 as uuidv4 } from 'uuid';
-import type { CreateFeedingInput, CreateFeedingMutation, OnCreateFeedingSubscription } from '../API';
+import type { CreateFeedingInput, CreateFeedingMutation, ListFeedingsQuery, OnCreateFeedingSubscription } from '../API';
 import { onCreateFeeding } from "../graphql/subscriptions";
+import { listFeedings } from "../graphql/queries";
 
 
 export function feedingSubscription() {
@@ -15,6 +16,19 @@ export function feedingSubscription() {
 	}) as Observable<any>
 
 	return sub;
+}
+
+
+export async function getFeedings() {
+	API.configure(config)
+	const response = await API.graphql({
+		query: listFeedings,
+		variables: {
+			// <your variables, optional>
+		},
+	})
+
+	return response as GraphQLResult<ListFeedingsQuery>;
 }
 
 
@@ -34,3 +48,15 @@ export async function addFeeding(data: AddFeedingItem) {
 
 	return response.data?.createFeeding;
 }
+
+
+
+
+
+
+// import { API, type GraphQLResult } from '@aws-amplify/api';
+// import type { ListFeedingsQuery } from '../API';
+// import type { FeedingItem } from '../api/feeding.model';
+// import config from '../aws-exports';
+// import { listFeedings } from '../graphql/queries';
+

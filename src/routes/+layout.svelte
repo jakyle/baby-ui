@@ -1,19 +1,21 @@
 <script lang="ts">
 	import '../app.css';
 	import { Auth, Amplify } from 'aws-amplify';
-	import { feedingSubscription } from '../api/feeding'
+	import { feedingSubscription } from '../api/feeding';
 	import awsconfig from '../aws-exports';
 	import Overlay from '../lib/Overlay.svelte';
 	import { page } from '$app/stores';
 	import { beforeNavigate } from '$app/navigation';
 	import { goto } from '$app/navigation';
-	import { authStateStore, isLoggedIn, setLogoutState } from '$lib/stores/user-store';
+	import { authStateStore, isLoggedIn } from '$lib/stores/user-store';
+	import { setFeedingData } from '$lib/stores/feeding-store';
 
 	Amplify.configure(awsconfig);
+	setFeedingData();
 
 	feedingSubscription().subscribe((value) => {
 		console.log('new feeding', value);
-	})
+	});
 
 	async function needsToLogin(route: string) {
 		if (route) {
@@ -48,7 +50,9 @@
 
 {#await $isLoggedIn then isLoggedIn}
 	<div class="relative flex h-screen w-screen flex-col bg-primary">
-		<nav class="navbar sticky flex-none justify-around bg-neutral sm:justify-start sm:gap-10 sm:pl-5">
+		<nav
+			class="navbar sticky flex-none justify-around bg-neutral sm:justify-start sm:gap-10 sm:pl-5"
+		>
 			<a class="link uppercase" href="/">home</a>
 			<a class="link uppercase" href="/feed-tracker">feeding</a>
 			<a class="link uppercase" href="/log">log</a>
