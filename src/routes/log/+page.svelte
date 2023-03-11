@@ -1,21 +1,18 @@
 <script lang="ts">
-	import { feedingStore } from '$lib/stores/feeding-store';
 	import type { FeedingItem } from '../../api/feeding.model';
-	export let data: { feedingItems: Array<FeedingItem>};
-
-	console.log(data.feedingItems);
+	export let data: { feedingItems: Array<FeedingItem> };
 </script>
 
-{#await $feedingStore then feedings}
-	<ul class="flex flex-col gap-2 p-2 w-full">
+<div class="w-full overflow-y-scroll scroll-p-48 h-[92vh] landscape:h-[83vh] lg:landscape:h-[92vh]">
+	<ul class="flex w-full flex-col gap-2 p-2">
 		{#each data.feedingItems as feeding}
-			<li class="bg-base-100 grid py-5 px-6 rounded w-full">
-				<p class="uppercase row-start-1 col-start-1 font-extrabold">Fed Time:</p>
-				<p class="row-start-1 col-start-2">{new Date(feeding.dateTime).toLocaleString()}</p>
-
-				<p class="uppercase row-start-2 col-start-1 font-extrabold">By:</p>
-				<p class="row-start-2 col-start-2">{feeding.by}</p>
+			<li class="grid w-full rounded bg-base-100 py-5 px-6">
+				<p class="col-start-1 row-start-1 font-extrabold uppercase">Fed Time:</p>
+				<p class="col-start-2 row-start-1">{new Date(feeding.dateTime).toLocaleString()}</p>
+	
+				<p class="col-start-1 row-start-2 font-extrabold uppercase">By:</p>
+				<p class="col-start-2 row-start-2">{feeding.by}</p>
 			</li>
 		{/each}
 	</ul>
-{/await}
+</div>

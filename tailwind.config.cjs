@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin')
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{html,js,svelte,ts}'],
@@ -86,6 +88,21 @@ module.exports = {
         }
       }
     },
+    strokeMiterlimit: {
+      1: '1',
+      2: '2',
+      4: '4',
+      6: '6',
+      8: '8',
+      10: '10',
+      12: '12',
+    },
+    strokeDasharray: {
+      1: '1',
+    },
+    strokeDashoffset: {
+      1: '1',
+    },
   },
   safelist: [{
       pattern: /gap-(0|0\.5|1|1\.5|2|2\.5|3|3\.5|4|[5-9]{1}|11|12|14|16|20|24|28|32|36|40|44|48|52|56|60|64|72|80|96)/
@@ -102,6 +119,26 @@ module.exports = {
       addVariant("child-hover", "& > *:hover");
       addVariant('child-hover-siblings', '&:has(*:hover) > *:not(:hover)');
       addVariant('grand-child-hover-siblings', '&:has(* > *:hover) > * > *:not(:hover)');
-    }
+    },
+    plugin(function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          ['stroke-miterlimit']: (value) => ({
+            strokeMiterlimit: value,
+          }),
+        },
+        { values: theme('strokeMiterlimit') }
+      )
+      matchUtilities({
+        ['stroke-dasharray']: (value) => ({
+          strokeDasharray: value,
+        }),
+      })
+      matchUtilities({
+        ['stroke-dashoffset']: (value) => ({
+          strokeDashoffset: value,
+        }),
+      })
+    })
   ],
 }

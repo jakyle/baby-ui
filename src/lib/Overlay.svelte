@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { classes } from '../util/html-helpers';
-	import { feedingProgress } from './stores/feeding-store';
+	import Loading from './Loading.svelte';
 	import Notifications from './Notifications.svelte';
+	import { shouldOverlay } from './stores/overlay-store';
 
 	$: overlayClasses = classes(
 		'pointer-events-none',
@@ -17,12 +18,12 @@
 		'gap-1',
 		'transition-colors',
 		'ease-in-back',
-		...($feedingProgress
-			? ['bg-neutral-900/90', 'duration-2000']
-			: ['bg-transparent', 'duration-50'])
+		'duration-50',
+		...($shouldOverlay ? ['bg-neutral-900/90'] : ['bg-transparent'])
 	);
 </script>
 
 <div class={overlayClasses}>
 	<Notifications />
+	<Loading />
 </div>
