@@ -7,14 +7,16 @@
 	import { page } from '$app/stores';
 	import { beforeNavigate } from '$app/navigation';
 	import { goto } from '$app/navigation';
-	import { authStateStore, isLoggedIn } from '$lib/stores/user-store';
-	import { setFeedingData } from '$lib/stores/feeding-store';
+	import { authStateStore, initializeUser, isLoggedIn, userNameStore, userStore } from '$lib/stores/user-store';
+	import { setFeedingData, tryAddFeeding } from '$lib/stores/feeding-store';
 
 	Amplify.configure(awsconfig);
 	setFeedingData();
 
 	feedingSubscription().subscribe((value) => {
 		console.log('new feeding', value);
+		const { By, DateTime, Id, Oz } = value.value.data.onCreateFeeding;
+		tryAddFeeding({ by: By, dateTime: DateTime, id: Id, oz: Oz });
 	});
 
 	async function needsToLogin(route: string) {
@@ -24,7 +26,12 @@
 					return true;
 				}
 				const currentUser = await Auth.currentAuthenticatedUser();
+
 				if (currentUser?.signInUserSession) {
+					const [userName, user] = [$userNameStore, $userStore];
+					if (userName.length < 1 || user === null) {
+						await initializeUser();
+					}
 					authStateStore.set('signout');
 					return true;
 				} else {

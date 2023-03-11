@@ -18,6 +18,16 @@ export const mfaSetupStore = writable<null | {qr: string, code: string}>(null);
 export const isLoggedIn = derived(authStateStore, (state) => state === 'signout');
 
 
+export async function initializeUser(): Promise<void> {
+	const user = await Auth.currentAuthenticatedUser();
+	const userName = getUserName(await Auth.userAttributes(user)); 
+
+	userNameStore.set(userName);
+	userStore.set(user);
+}
+
+const getUserName = (attributes: Array<any>) => attributes.find(a => a.Name === 'nickname')?.Value ?? attributes.find(a => a.Name === 'email')?.Value ?? 'nouser';
+
 
 export async function signIn(email: string, password: string) {
 	try {
@@ -75,8 +85,12 @@ export async function authWorkFlow(userResponse: any) {
 	}
 }
 
-export function setLogoutState(currentUser: any) {
-	userNameStore.set(currentUser?.signInUserSession?.idToken.payload?.email ?? 'nouser');
+export async function setLogoutState(currentUser: any) {
+
+	const attributes = await Auth.userAttributes(currentUser);
+	const name = attributes.find(a => a.Name === 'nickname')?.Value ?? attributes.find(a => a.Name === 'email')?.Value ?? 'nouser';
+
+	userNameStore.set(name);
 	userStore.set(currentUser);
 	authStateStore.set('signout');
 }

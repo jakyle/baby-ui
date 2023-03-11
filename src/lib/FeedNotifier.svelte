@@ -3,6 +3,7 @@
 	import { isClientInRect } from '../util/html-helpers';
 	import CardContainer from './CardContainer.svelte';
 	import { feedingProgress, sendFeeding } from './stores/feeding-store';
+	import { userNameStore } from './stores/user-store';
 
 	const dateObj = new Date();
 	let date = dateObj.toLocaleDateString('sv');
@@ -23,7 +24,7 @@
 			timeout = setTimeout(() => {
 				if ($feedingProgress) {
 					$feedingProgress = false;
-					sendFeeding(date, time, oz, 'Jimmy');
+					sendFeeding(date, time, oz, $userNameStore);
 				}
 			}, SEND_TIMER);
 		}

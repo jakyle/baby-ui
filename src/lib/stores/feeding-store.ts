@@ -4,10 +4,20 @@ import type { FeedingItem, AddFeedingItem } from '../../api/feeding.model';
 import { toLocalTime, threeHoursFromNow, getCalculatedTime } from '../../util/time-helper';
 import { Notification, pushNotification } from './notification-store';
 
-export const feedingStore = writable<Array<FeedingItem>>([]);
+const getLocalFeeding = (): Array<FeedingItem> => {
+	const feeding = localStorage.getItem('feeding');
+	const now = new Date();
+	return feeding !== null ? JSON.parse(feeding) as Array<FeedingItem> : [{
+		dateTime: now.toISOString(),
+		oz: 2,
+		by: 'Ya boi!',
+		id: "12345"
+	}];
+}
+
+export const feedingStore = writable<Array<FeedingItem>>(getLocalFeeding());
 
 const getFeedingItem = async (): Promise<Array<FeedingItem>> => {
-
 	try {
 		const result = await getFeedings();
 		const feedingItems: Array<FeedingItem> = result.data?.listFeedings?.items?.map((item) => ({
@@ -17,23 +27,34 @@ const getFeedingItem = async (): Promise<Array<FeedingItem>> => {
 			dateTime: item?.DateTime ?? ''
 		})) ?? [];
 
+		if (feedingItems.length < 1) {
+			return getLocalFeeding();
+		}
+
 		feedingItems.sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime());
 
 		return feedingItems;
 	} catch (error) {
 		console.log(error);
-		const feeding = localStorage.getItem('feeding');
-		const now = new Date();
-		return feeding !== null ? JSON.parse(feeding) as Array<FeedingItem> : [{
-			dateTime: now.toISOString(),
-			oz: 2,
-			by: 'Ya boi!',
-			id: "12345"
-		}];
+		return getLocalFeeding();
 	}
 }
 
-export const setFeedingData = async (): Promise<void> =>  {
+export const tryAddFeeding = (feedItem: FeedingItem) => {
+	feedingStore.update(feedings => {
+		const feedingItems = [...feedings];
+
+		const potentialFeed = feedingItems.find(feed => feed.id === feedItem.id);
+		if (potentialFeed === undefined) {
+			feedingItems.push(feedItem);
+			feedingItems.sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime());
+		}
+
+		return feedingItems
+	})
+}
+
+export const setFeedingData = async (): Promise<void> => {
 	feedingStore.set(await getFeedingItem());
 }
 
