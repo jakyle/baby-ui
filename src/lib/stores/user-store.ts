@@ -22,7 +22,7 @@ export const isLoggedIn = derived(authStateStore, (state) => state === 'signout'
 export async function signIn(email: string, password: string) {
 	try {
 		isLoading(true);
-		const userResponse = await Auth.signIn(email.trim(), password);
+		const userResponse = await Auth.signIn((email ?? ' ').trim(), password);
 		await authWorkFlow(userResponse);
 		isLoading(false);
 	} catch (error) {
@@ -47,6 +47,7 @@ export async function resetPassword(user: any, newPassword: string) {
 }
 
 export async function authWorkFlow(userResponse: any) {
+	console.log(userResponse);
 	switch (userResponse.challengeName ?? '') {
 		case 'NEW_PASSWORD_REQUIRED': {
 			authStateStore.set('reset');
@@ -58,7 +59,9 @@ export async function authWorkFlow(userResponse: any) {
 			break;
 		}
 		case 'SOFTWARE_TOKEN_MFA': {
+			console.log('we are in the software token mfa');
 			authStateStore.set('mfa');
+			userStore.set(userResponse);
 			break;
 		}
 		default: {

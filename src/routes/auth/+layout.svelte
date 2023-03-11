@@ -9,12 +9,16 @@
 	authStateStore.subscribe(async (state) => await goto(`${$page.url.origin}/auth/${state}`));
 
 	onMount(async () => {
-		const currentUser = await Auth.currentAuthenticatedUser();
-		if (currentUser?.signInUserSession) {
-			setLogoutState(currentUser);
-			authStateStore.set('signout');
-		} else {
-			authStateStore.set('login');
+		try {
+			const currentUser = await Auth.currentAuthenticatedUser();
+			if (currentUser?.signInUserSession) {
+				setLogoutState(currentUser);
+				authStateStore.set('signout');
+			} else {
+				throw new Error();
+			}
+		} catch (error) {
+			authStateStore.set('login')
 		}
 	});
 </script>

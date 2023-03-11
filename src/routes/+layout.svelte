@@ -1,6 +1,7 @@
 <script lang="ts">
 	import '../app.css';
 	import { Auth, Amplify } from 'aws-amplify';
+	import { feedingSubscription } from '../api/feeding'
 	import awsconfig from '../aws-exports';
 	import Overlay from '../lib/Overlay.svelte';
 	import { page } from '$app/stores';
@@ -10,9 +11,16 @@
 
 	Amplify.configure(awsconfig);
 
+	feedingSubscription().subscribe((value) => {
+		console.log('new feeding', value);
+	})
+
 	async function needsToLogin(route: string) {
 		if (route) {
 			try {
+				if (route.includes('auth')) {
+					return true;
+				}
 				const currentUser = await Auth.currentAuthenticatedUser();
 				if (currentUser?.signInUserSession) {
 					authStateStore.set('signout');
