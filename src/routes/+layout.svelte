@@ -40,15 +40,13 @@
 
 {#await $isLoggedIn then isLoggedIn}
 	<div class="relative flex h-screen w-screen flex-col bg-primary">
-		<nav class="navbar sticky flex-none bg-neutral">
-			<div class="navbar-start ml-4 flex gap-4">
-				<a class="link uppercase" href="/">home</a>
-				<a class="link uppercase" href="/feed-tracker">feeding</a>
-				<a class="link uppercase" href="/log">log</a>
-				{#if isLoggedIn}
-					<a class="link uppercase" href="/auth/signout">logout</a>
-				{/if}
-			</div>
+		<nav class="navbar sticky flex-none justify-around bg-neutral sm:justify-start sm:gap-4">
+			<a class="link uppercase" href="/">home</a>
+			<a class="link uppercase" href="/feed-tracker">feeding</a>
+			<a class="link uppercase" href="/log">log</a>
+			{#if isLoggedIn}
+				<a class="link uppercase" href="/auth/signout">logout</a>
+			{/if}
 		</nav>
 		<div class="flex-1">
 			<Overlay />
