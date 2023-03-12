@@ -116,14 +116,14 @@ export const isProgressing = derived(feedingProgress, (isFeeding, setProgress: (
 export const currentFeedingModel = derived(
 	feedingStore,
 	($feeding) => {
-		const { dateTime, oz, by } = $feeding.at(-1)!;
+		const { dateTime, oz, by } = $feeding.at(0)!;
 		const date = new Date(dateTime).toLocaleDateString('sv');
 		const time = new Date(dateTime).toLocaleTimeString('sv');
 
 		return {
 			time: toLocalTime(time),
 			date: new Date(dateTime).toLocaleDateString(),
-			nextFeeding: threeHoursFromNow(date, time).toLocaleTimeString(),
+			nextFeeding: threeHoursFromNow(date, time).toLocaleTimeString([], {hour: 'numeric', minute:'2-digit'}),
 			oz,
 			fedBy: by,
 		}

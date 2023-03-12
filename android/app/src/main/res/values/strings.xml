@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">baby-ui</string>
+    <string name="title_activity_main">baby-ui</string>
+    <string name="package_name">com.babytracker.app</string>
+    <string name="custom_url_scheme">com.babytracker.app</string>
+</resources>

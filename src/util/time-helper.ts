@@ -1,8 +1,12 @@
 export const toLocalTime = (timeInput: string): string => {
+
+
 	const time = timeInput.split(':');
 
 	const hours = Number(time[0]);
 	const minutes = Number(time[1]);
+
+	console.log(hours, minutes, time);
 
 	let timeValue: string = '';
 
@@ -33,12 +37,12 @@ export const getCalculatedTime = (countDownDate: number): string => {
 	// Find the distance between now and the count down date
 	const distance = countDownDate - now;
 	// Time calculations for days, hours, minutes and seconds
-	const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-	const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-	const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+	const hours = Math.max(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), 0);
+	const minutes = Math.max(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)), 0);
+	const seconds = Math.max(Math.floor((distance % (1000 * 60)) / 1000), 0);
 
 	const formatTimeDigit = (digit: number) => digit > 9 ? digit : `0${digit}`
 
 	// Output the result in an element with id="demo"
-	return `${hours}:${formatTimeDigit(minutes)}:${formatTimeDigit(seconds)}s from now`;
+	return `${hours}H ${formatTimeDigit(minutes)}M from now`;
 }

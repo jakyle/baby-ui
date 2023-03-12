@@ -28,7 +28,7 @@
 
 		<div class="flex justify-center pt-12 relative">
 			<a class="absolute top-10 font-baby text-2xl font-base btn btn-xl" href="./feed-tracker">
-				Feed
+				feed
 			</a>
 		</div>
 	</div>
