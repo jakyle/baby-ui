@@ -64,7 +64,7 @@
 				on:mousedown={handleStartTimer}
 				on:contextmenu|preventDefault
 				bind:this={submitButton}
-				class="btn-xl transition-color btn h-24 sm:basis-1/3 flex-col gap-1 text-3xl ease-in-back"
+				class="btn-xl bg-base-300 text-base-content transition-color btn h-24 sm:basis-1/3 flex-col gap-1 text-lg 2xs:text-xl xs:text-2xl sm:text-3xl ease-in-back"
 				class:duration-100={!isFeeding}
 				class:duration-2000={isFeeding}
 				class:btn-info={isFeeding}

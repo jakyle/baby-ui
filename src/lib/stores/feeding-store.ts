@@ -79,9 +79,6 @@ export const sendFeeding = async (date: string, time: string, oz: number, by: st
 			}];
 
 			updatedFeeding.sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime());
-
-			console.log(updatedFeeding);
-
 			localStorage.setItem('feeding', JSON.stringify(updatedFeeding));
 			return updatedFeeding;
 		});

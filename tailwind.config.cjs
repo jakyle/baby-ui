@@ -1,4 +1,5 @@
-const plugin = require('tailwindcss/plugin')
+const plugin = require('tailwindcss/plugin');
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -103,7 +104,13 @@ module.exports = {
     strokeDashoffset: {
       1: '1',
     },
+    screens: {
+      '2xs': '320px',
+      'xs': '475px',
+      ...defaultTheme.screens,
+    },
   },
+
   safelist: [{
       pattern: /gap-(0|0\.5|1|1\.5|2|2\.5|3|3\.5|4|[5-9]{1}|11|12|14|16|20|24|28|32|36|40|44|48|52|56|60|64|72|80|96)/
     }, {

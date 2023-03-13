@@ -17,17 +17,20 @@
 	);
 </script>
 
-<div class="h-full w-full flex items-center justify-center">
+<div class="flex h-full w-full items-center justify-center">
 	<div
-		class="flex font-baby-block text-3xl flex-col w-full sm:w-fit p-8 sm:px-24 sm:rounded-lg shadow bg-base-100 gap-4">
-
-			<FocusLetterSentences gap="2" {sentence} />
-		<div class="flex contrast-125 justify-center text-8xl sm:text-6xl">
+		class="flex w-full flex-col gap-4 bg-base-100 p-8 font-baby-block text-xl shadow 2xs:text-2xl xs:text-3xl sm:w-fit sm:rounded-lg sm:px-24"
+	>
+		<FocusLetterSentences {sentence} />
+		<div class="flex justify-center text-8xl contrast-125 sm:text-6xl">
 			<BabyLetter animation="bounce-spring" letter={baby} />
 		</div>
 
-		<div class="flex justify-center pt-12 relative">
-			<a class="absolute top-10 font-baby text-2xl font-base btn btn-xl" href="./feed-tracker">
+		<div class="relative flex justify-center pt-12">
+			<a
+				class="font-base btn-xl bg-base-300 text-base-content btn absolute top-10 font-baby text-xl xs:text-2xl"
+				href="./feed-tracker"
+			>
 				feed
 			</a>
 		</div>

@@ -14,7 +14,6 @@
 	setFeedingData();
 
 	feedingSubscription().subscribe((value) => {
-		console.log('new feeding', value);
 		const { By, DateTime, Id, Oz } = value.value.data.onCreateFeeding;
 		tryAddFeeding({ by: By, dateTime: DateTime, id: Id, oz: Oz });
 	});
@@ -58,7 +57,7 @@
 {#await $isLoggedIn then isLoggedIn}
 	<div class="relative flex h-screen w-screen flex-col bg-primary">
 		<nav
-			class="navbar sticky flex-none justify-around bg-neutral sm:justify-start sm:gap-10 sm:pl-5"
+			class="navbar sticky flex-none   justify-around bg-base-100 sm:justify-start sm:gap-10 sm:pl-5"
 		>
 			<a class="link uppercase" href="/">home</a>
 			<a class="link uppercase" href="/feed-tracker">feeding</a>

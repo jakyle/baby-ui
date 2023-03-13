@@ -2,15 +2,14 @@
 	import { classes } from '../util/html-helpers';
 	import BabyLetter from './BabyLetter.svelte';
 	export let sentence: string;
-	export let gap: string = '4';
-	$: gapValue = `gap-${gap}`;
 
 	$: parentClasses = classes(
-		gapValue,
+		'lg:gap-4',
+		'xs:gap-2',
+		'gap-1',
 		'flex',
 		'justify-center',
 		'w-auto',
-		'flex-wrap',
 		'child:flex',
 		'child:w-fit',
 		'child:justify-center',
@@ -23,7 +22,7 @@
 
 </script>
 
-<div class="grand-child-hover-siblings:blur-2xs flex flex-col {gapValue}">
+<div class="grand-child-hover-siblings:blur-2xs flex flex-col lg:gap-4 xs:gap-2 gap-1">
 	{#each sentence.split(' ') as word}
 	<div tabindex="-1" class={parentClasses}>
 		{#each word.split('') as letter }

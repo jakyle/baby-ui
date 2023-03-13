@@ -1,12 +1,7 @@
 export const toLocalTime = (timeInput: string): string => {
-
-
 	const time = timeInput.split(':');
-
 	const hours = Number(time[0]);
 	const minutes = Number(time[1]);
-
-	console.log(hours, minutes, time);
 
 	let timeValue: string = '';
 
@@ -44,8 +39,6 @@ export const getCalculatedTime = (countDownDate: number): string => {
 	const hours = Math.max(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)), 0);
 	const minutes = Math.max(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)), 0);
 	const seconds = Math.max(Math.floor((distance % (1000 * 60)) / 1000), 0);
-
-	console.log(hours);
 
 	const formatTimeDigit = (digit: number) => digit > 9 ? digit : `0${digit}`
 
