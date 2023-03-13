@@ -24,7 +24,5 @@
 </script>
 
 <div class="flex h-full w-full items-center justify-center">
-	<CardContainer>
-		<slot />
-	</CardContainer>
+		  <slot />
 </div>

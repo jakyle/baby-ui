@@ -38,6 +38,7 @@ export async function signIn(email: string, password: string) {
 	} catch (error) {
 		console.log('error signing in', error);
 		error = error;
+		throw error;
 	}
 }
 
@@ -53,6 +54,7 @@ export async function resetPassword(user: any, newPassword: string) {
 	} catch (error) {
 		console.log('error signing in', error);
 		error = error;
+		throw error;
 	}
 }
 
@@ -97,15 +99,17 @@ export async function setLogoutState(currentUser: any) {
 
 export async function submitMfa(user: any, challengeCode: string) {
 	try {
-		await Auth.verifyTotpToken(user, challengeCode.trim());
+		const userSession = await Auth.verifyTotpToken(user, challengeCode.trim());
 		const successCode = await Auth.setPreferredMFA(user, 'TOTP');
 
 		if (successCode === 'SUCCESS') {
-			await confirmSignIn(user, challengeCode);
+			authStateStore.set('login');
+			isLoading(false);
 		}
 	} catch (error) {
 		console.log(error);
 		error = error;
+		throw error;
 	}
 }
 
