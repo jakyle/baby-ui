@@ -60,7 +60,6 @@
 			class="navbar sticky flex-none   justify-around bg-base-100 sm:justify-start sm:gap-10 sm:pl-5"
 		>
 			<a class="link uppercase" href="/">home</a>
-			<a class="link uppercase" href="/feed-tracker">feeding</a>
 			<a class="link uppercase" href="/log">log</a>
 			{#if isLoggedIn}
 				<a class="link uppercase" href="/auth/signout">logout</a>

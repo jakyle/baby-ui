@@ -9,7 +9,6 @@ node_modules
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
 amplify/.config/local-*
@@ -22,7 +21,6 @@ build/
 dist/
 node_modules/
 aws-exports.js
-aws-exports.ts
 awsconfiguration.json
 amplifyconfiguration.json
 amplifyconfiguration.dart

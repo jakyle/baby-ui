@@ -23,10 +23,7 @@
       class={notificationClasses(type)}
     >
       {message}
-      <button
-        class="btn-sm btn-circle btn"
-        on:click={() => removeNotification(id)}>X</button
-      >
+      <button class="btn-sm btn-circle btn" on:click={() => removeNotification(id)}>X</button>
     </div>
   {/each}
 {/await}

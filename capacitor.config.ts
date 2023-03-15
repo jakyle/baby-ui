@@ -5,10 +5,10 @@ const config: CapacitorConfig = {
   appName: 'baby-ui',
   webDir: 'build',
   bundledWebRuntime: false,
-  // server : {
-  //   url: 'http://10.0.0.159:5173/',
-  //   cleartext: true
-  // }
+  server : {
+    url: 'http://10.0.0.159:5173/',
+    cleartext: true
+  }
 };
 
 export default config;

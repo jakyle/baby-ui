@@ -51,15 +51,3 @@ export async function addFeeding(data: AddFeedingItem) {
 
 	return response.data?.createFeeding;
 }
-
-
-
-
-
-
-// import { API, type GraphQLResult } from '@aws-amplify/api';
-// import type { ListFeedingsQuery } from '../API';
-// import type { FeedingItem } from '../api/feeding.model';
-// import config from '../aws-exports';
-// import { listFeedings } from '../graphql/queries';
-

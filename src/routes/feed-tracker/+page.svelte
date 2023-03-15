@@ -1,6 +1,6 @@
 <script lang="ts">
 	import FeedingProgress from '$lib/FeedingProgress.svelte';
-	import FeedNotifier from '$lib/FeedNotifier.svelte';
+	import FeedNotifier from '$lib/Notifiers/FeedNotifier.svelte';
 	import MealClock from '$lib/MealClock.svelte';
 </script>
 

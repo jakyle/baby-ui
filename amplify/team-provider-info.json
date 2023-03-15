@@ -1,19 +1,30 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-babyui-dev-212127-authRole",
-      "UnauthRoleArn": "arn:aws:iam::622170146994:role/amplify-babyui-dev-212127-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::622170146994:role/amplify-babyui-dev-212127-authRole",
+      "AuthRoleName": "amplify-babyui-dev-14158-authRole",
+      "UnauthRoleArn": "arn:aws:iam::622170146994:role/amplify-babyui-dev-14158-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::622170146994:role/amplify-babyui-dev-14158-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-babyui-dev-212127-deployment",
-      "UnauthRoleName": "amplify-babyui-dev-212127-unauthRole",
-      "StackName": "amplify-babyui-dev-212127",
-      "StackId": "arn:aws:cloudformation:us-east-1:622170146994:stack/amplify-babyui-dev-212127/9a92b250-bbc5-11ed-a08f-0a8fee37d78b",
-      "AmplifyAppId": "d3cgp4ihx38cv5"
+      "DeploymentBucketName": "amplify-babyui-dev-14158-deployment",
+      "UnauthRoleName": "amplify-babyui-dev-14158-unauthRole",
+      "StackName": "amplify-babyui-dev-14158",
+      "StackId": "arn:aws:cloudformation:us-east-1:622170146994:stack/amplify-babyui-dev-14158/f0973610-c22a-11ed-9549-0a88b80f2a11",
+      "AmplifyAppId": "d19qeubg5r4y81"
     },
     "categories": {
+      "storage": {
+        "Feeding": {
+          "tableName": "Feeding",
+          "region": "us-east-1",
+          "arn": "arn:aws:dynamodb:us-east-1:622170146994:table/Feeding",
+          "partitionKeyName": "Id",
+          "partitionKeyType": "S",
+          "sortKeyName": "DateTime",
+          "sortKeyType": "S"
+        }
+      },
       "auth": {
-        "babyuiad48f7d7": {}
+        "babyui4c1521734c152173": {}
       }
     }
   }

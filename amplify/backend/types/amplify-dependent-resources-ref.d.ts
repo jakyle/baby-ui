@@ -1,10 +1,8 @@
 export type AmplifyDependentResourcesAttributes = {
   "auth": {
-    "babyuiad48f7d7": {
+    "babyui4c1521734c152173": {
       "AppClientID": "string",
       "AppClientIDWeb": "string",
-      "IdentityPoolId": "string",
-      "IdentityPoolName": "string",
       "UserPoolArn": "string",
       "UserPoolId": "string",
       "UserPoolName": "string"

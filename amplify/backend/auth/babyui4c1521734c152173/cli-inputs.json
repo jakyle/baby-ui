@@ -1,16 +1,14 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "identityPoolName": "babyuiad48f7d7_identitypool_ad48f7d7",
-    "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "babyuiad48f7d7",
-    "userPoolName": "babyuiad48f7d7_userpool_ad48f7d7",
+    "resourceNameTruncated": "babyui4c152173",
+    "userPoolName": "babyui4c152173_userpool_4c152173",
     "autoVerifiedAttributes": [
       "email"
     ],
-    "mfaConfiguration": "OFF",
+    "mfaConfiguration": "ON",
     "mfaTypes": [
-      "SMS Text Message"
+      "TOTP"
     ],
     "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
@@ -26,20 +24,26 @@
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [
+      "nickname",
       "email"
     ],
     "userpoolClientReadAttributes": [
-      "email"
+      "email",
+      "nickname"
     ],
-    "userpoolClientLambdaRole": "babyuiad48f7d7_userpoolclient_lambda_role",
-    "userpoolClientSetAttributes": false,
-    "sharedId": "ad48f7d7",
-    "resourceName": "babyuiad48f7d7",
-    "authSelections": "identityPoolAndUserPool",
-    "useDefault": "default",
+    "userpoolClientLambdaRole": "babyui4c152173_userpoolclient_lambda_role",
+    "userpoolClientSetAttributes": true,
+    "sharedId": "4c152173",
+    "resourceName": "babyui4c1521734c152173",
+    "authSelections": "userPoolOnly",
+    "useDefault": "manual",
     "usernameAttributes": [
       "email"
     ],
+    "userPoolGroups": false,
+    "adminQueries": true,
+    "triggers": {},
+    "hostedUI": false,
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,

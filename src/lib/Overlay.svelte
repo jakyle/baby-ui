@@ -2,7 +2,9 @@
 	import { classes } from '../util/html-helpers';
 	import Loading from './Loading.svelte';
 	import Notifications from './Notifications.svelte';
+	import NotifierFactory from './NotifierFactory.svelte';
 	import { shouldOverlay } from './stores/overlay-store';
+	
 
 	$: overlayClasses = classes(
 		'pointer-events-none',
@@ -26,4 +28,5 @@
 <div class={overlayClasses}>
 	<Notifications />
 	<Loading />
+	<NotifierFactory />
 </div>

@@ -1,12 +1,12 @@
 {
   "auth": {
-    "babyuiad48f7d7": {
+    "babyui4c1521734c152173": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
-        "mfaConfiguration": "OFF",
+        "mfaConfiguration": "ON",
         "mfaTypes": [
-          "SMS"
+          "TOTP"
         ],
         "passwordProtectionSettings": {
           "passwordPolicyCharacters": [],
@@ -25,6 +25,72 @@
       },
       "providerPlugin": "awscloudformation",
       "service": "Cognito"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_storage_Feeding_arn": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "Feeding"
+        }
+      ]
+    },
+    "AMPLIFY_storage_Feeding_partitionKeyName": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "Feeding"
+        }
+      ]
+    },
+    "AMPLIFY_storage_Feeding_partitionKeyType": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "Feeding"
+        }
+      ]
+    },
+    "AMPLIFY_storage_Feeding_region": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "Feeding"
+        }
+      ]
+    },
+    "AMPLIFY_storage_Feeding_sortKeyName": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "Feeding"
+        }
+      ]
+    },
+    "AMPLIFY_storage_Feeding_sortKeyType": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "Feeding"
+        }
+      ]
+    },
+    "AMPLIFY_storage_Feeding_tableName": {
+      "usedBy": [
+        {
+          "category": "storage",
+          "resourceName": "Feeding"
+        }
+      ]
+    }
+  },
+  "storage": {
+    "Feeding": {
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB",
+      "serviceType": "imported"
     }
   }
 }
