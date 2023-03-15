@@ -6,8 +6,8 @@
 	};
 </script>
 
-<div class="flex w-full flex-row justify-around gap-2 transition-all hover:scale-105">
-	<button class="btn-circle btn-lg btn text-xl" on:click={() => toggleNotifier('feeding')}>
+<div class="flex w-full flex-row justify-around gap-2 transition-all">
+	<button class="btn-circle btn-lg btn text-xl hover:scale-105" on:click={() => toggleNotifier('feeding')}>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			class="h-12 w-12 rotate-[24deg]"
@@ -62,7 +62,7 @@
 		</svg>
 	</button>
 
-	<button class="btn-circle btn-lg btn text-xl">
+	<button class="btn-circle btn-lg btn text-xl hover:scale-105">
 		<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
 		<svg viewBox="0 0 512 512" class="h-10 w-10 pt-1">
 			<g>
