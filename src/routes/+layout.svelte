@@ -1,17 +1,54 @@
 <script lang="ts">
 	import '../app.css';
-	import { Auth, Amplify } from 'aws-amplify';
+	import { Auth, Amplify, Hub } from 'aws-amplify';
 	import { feedingSubscription } from '../api/feeding';
 	import awsconfig from '../aws-exports';
 	import Overlay from '../lib/Overlay.svelte';
 	import { page } from '$app/stores';
 	import { beforeNavigate } from '$app/navigation';
 	import { goto } from '$app/navigation';
-	import { authStateStore, initializeUser, isLoggedIn, userNameStore, userStore } from '$lib/stores/user-store';
+	import { authStateStore, initializeUser, userNameStore, userStore } from '$lib/stores/user-store';
 	import { setFeedingData, tryAddFeeding } from '$lib/stores/feeding-store';
+	import { CONNECTION_STATE_CHANGE, ConnectionState } from '@aws-amplify/pubsub';
+	import { pushNotification, Notification } from '$lib/stores/notification-store';
 
 	Amplify.configure(awsconfig);
-	setFeedingData();
+
+	let priorConnectionState = ConnectionState.Disconnected;
+	let canUpdatePushNotification = false;
+	setTimeout(() => (canUpdatePushNotification = true), 1000);
+	Hub.listen('api', (data: any) => {
+		const { payload } = data;
+		if (payload.event === CONNECTION_STATE_CHANGE) {
+			if (
+				priorConnectionState === ConnectionState.Connecting &&
+				payload.data.connectionState === ConnectionState.Connected
+			) {
+				setFeedingData();
+			}
+
+			if (canUpdatePushNotification) {
+				switch (payload.data.connectionState) {
+					case ConnectionState.Connected: {
+						pushNotification('Connection Re-Established');
+						break;
+					}
+					case ConnectionState.Disconnected: {
+						pushNotification('Lost connection', Notification.ERROR, 10000);
+					}
+					case ConnectionState.ConnectionDisrupted:
+					case ConnectionState.ConnectionDisruptedPendingNetwork:
+					case ConnectionState.ConnectedPendingNetwork: {
+						pushNotification('Experience Connectivity issues', Notification.WARNING);
+					}
+					default:
+						break;
+				}
+			}
+
+			priorConnectionState = payload.data.connectionState;
+		}
+	});
 
 	feedingSubscription().subscribe((value) => {
 		const { By, DateTime, Id, Oz } = value.value.data.onCreateFeeding;
@@ -54,20 +91,9 @@
 	});
 </script>
 
-{#await $isLoggedIn then isLoggedIn}
-	<div class="relative flex h-screen w-screen flex-col bg-primary">
-		<nav
-			class="navbar sticky flex-none   justify-around bg-base-100 sm:justify-start sm:gap-10 sm:pl-5"
-		>
-			<a class="link uppercase" href="/">home</a>
-			<a class="link uppercase" href="/log">log</a>
-			{#if isLoggedIn}
-				<a class="link uppercase" href="/auth/signout">logout</a>
-			{/if}
-		</nav>
-		<div class="flex-1">
-			<Overlay />
-			<slot />
-		</div>
+<div class="relative flex h-screen w-screen flex-col bg-primary">
+	<div class="flex-1">
+		<Overlay />
+		<slot />
 	</div>
-{/await}
+</div>

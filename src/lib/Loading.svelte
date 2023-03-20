@@ -4,7 +4,6 @@
 
 {#if $loadingStore}
 	<div class="flex w-full h-full justify-center items-center">
-
 		<div class="w-48 h-48 flex relative flex justify-center items-center">
 			<svg class="absolute animate-spin" viewBox="0 0 24 24">
 				<circle class="fill-none stroke-gray-100/10 stroke-[3]" r="10" cx="50%" cy="50%" />

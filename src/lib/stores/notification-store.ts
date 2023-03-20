@@ -17,12 +17,12 @@ type NotificationPayload = {
 
 export const notificationStore = writable<Array<NotificationPayload>>([]);
 
-let id: number = 0;
-export const pushNotification = (message: string, type: Notification = Notification.INFO, timer: number = 3000) => {
+let id = 0;
+export const pushNotification = (message: string, type: Notification = Notification.INFO, timer = 3000) => {
 	notificationStore.update(n => {
 		const notifications = [...n];
 		notifications.unshift({ message, type, id });
-		let currentId = id;
+		const currentId = id;
 		setTimeout(() => removeNotification(currentId), timer);
 		id++;
 		return notifications;

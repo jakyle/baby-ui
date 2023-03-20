@@ -3,6 +3,15 @@
 @tailwind utilities;
 
 @layer base {
+
+	/* input[type="time"]::-webkit-calendar-picker-indicator {
+		background: none;
+	}
+
+	input[type="date"]::-webkit-calendar-picker-indicator {
+		background: none;
+	} */
+
 	@font-face {
 		font-family: 'Whale I Tried';
 		src: url('/fonts/WhaleITriedRegular-xWq0.ttf') format('truetype');

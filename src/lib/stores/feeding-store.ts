@@ -2,6 +2,7 @@ import { derived, writable } from 'svelte/store';
 import { addFeeding, getFeedings } from '../../api/feeding';
 import type { FeedingItem, AddFeedingItem } from '../../api/feeding.model';
 import { toLocalTime, threeHoursFromNow, getCalculatedTime } from '../../util/time-helper';
+import { isLoading } from './loading-store';
 import { Notification, pushNotification } from './notification-store';
 
 const getLocalFeeding = (): Array<FeedingItem> => {
@@ -46,8 +47,7 @@ export const tryAddFeeding = (feedItem: FeedingItem) => {
 
 		const potentialFeed = feedingItems.find(feed => feed.id === feedItem.id);
 		if (potentialFeed === undefined) {
-			feedingItems.push(feedItem);
-			feedingItems.sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime());
+			setFeedingData();
 		}
 
 		return feedingItems
@@ -55,7 +55,15 @@ export const tryAddFeeding = (feedItem: FeedingItem) => {
 }
 
 export const setFeedingData = async (): Promise<void> => {
-	feedingStore.set(await getFeedingItem());
+	isLoading(true);
+	try {
+		feedingStore.set(await getFeedingItem());
+	} catch (error) {
+		pushNotification('Something went wrong when fetching data', Notification.ERROR)
+		console.error(error);
+	} finally {
+		isLoading(false);
+	}
 }
 
 
@@ -71,7 +79,7 @@ export const sendFeeding = async (date: string, time: string, oz: number, by: st
 	if (result) {
 		pushNotification('Feeding Success!', Notification.SUCCESS)
 		feedingStore.update(feeding => {
-			let updatedFeeding = [...feeding, {
+			const updatedFeeding = [...feeding, {
 				dateTime: result!.DateTime,
 				id: result.Id,
 				by: result.By!,
@@ -113,6 +121,7 @@ export const isProgressing = derived(feedingProgress, (isFeeding, setProgress: (
 export const currentFeedingModel = derived(
 	feedingStore,
 	($feeding) => {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		const { dateTime, oz, by } = $feeding.at(0)!;
 		const date = new Date(dateTime).toLocaleDateString('sv');
 		const time = new Date(dateTime).toLocaleTimeString('sv');
@@ -120,7 +129,7 @@ export const currentFeedingModel = derived(
 		return {
 			time: toLocalTime(time),
 			date: new Date(dateTime).toLocaleDateString(),
-			nextFeeding: threeHoursFromNow(date, time).toLocaleTimeString([], {hour: 'numeric', minute:'2-digit'}),
+			nextFeeding: threeHoursFromNow(date, time).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
 			oz,
 			fedBy: by,
 		}
@@ -134,11 +143,11 @@ export const feedingCountDown = derived(
 		const dateTime = new Date(`${date} ${time}`);
 		const dateIso = dateTime.toLocaleDateString("sv");
 		const timeIso = dateTime.toLocaleTimeString("sv");
-		let nextFeedingDate = threeHoursFromNow(dateIso, timeIso).getTime();
+		const nextFeedingDate = threeHoursFromNow(dateIso, timeIso).getTime();
 		setTimer(getCalculatedTime(nextFeedingDate));
 
 		const interval = setInterval(() => {
-			let nextFeedingDate = threeHoursFromNow(dateIso, timeIso).getTime();
+			const nextFeedingDate = threeHoursFromNow(dateIso, timeIso).getTime();
 			setTimer(getCalculatedTime(nextFeedingDate));
 		}, 1000);
 

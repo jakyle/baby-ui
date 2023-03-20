@@ -1,7 +1,45 @@
 <script lang="ts">
 	import { currentNotifier } from './stores/notifier-store';
 	import FeedNotifier from './Notifiers/FeedNotifier.svelte';
-	import { fade, fly } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
+	import MealClock from './MealClock.svelte';
+	import type { ComponentType } from 'svelte';
+	import { isClientInRect } from '../util/html-helpers';
+
+	let dataContainer: HTMLDivElement;
+	let notifierContainer: HTMLDivElement;
+
+	type NotifierObj = {
+		data: ComponentType;
+		notifier: ComponentType;
+	};
+
+	const notifierMap: Record<string, NotifierObj> = {
+		feeding: {
+			data: MealClock,
+			notifier: FeedNotifier
+		}
+	};
+
+	const tryCloseOverlay = ({
+		clientX,
+		clientY
+	}: MouseEvent & {
+		currentTarget: EventTarget & HTMLElement;
+	}) => {
+		if ($currentNotifier) {
+			const rects = [
+				dataContainer!.getBoundingClientRect(),
+				notifierContainer!.getBoundingClientRect()
+			];
+
+			const clickedInDiv = rects.some((rect) => isClientInRect(rect, { clientX, clientY }));
+
+			if (!clickedInDiv) {
+				closeNotifier();
+			}
+		}
+	};
 
 	const closeNotifier = () => {
 		currentNotifier.set(null);
@@ -10,26 +48,28 @@
 
 {#await $currentNotifier then notifier}
 	{#if notifier !== null}
-		<div class="flex h-full w-full items-end justify-center">
-			<div transition:fly={{ y: 150, duration: 800 }} class="pointer-events-auto relative">
-				<button
-					class="btn-secondary btn-circle btn absolute -top-6 -right-6 z-10"
-					on:click={closeNotifier}
-				>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke-width="1.5"
-						stroke="currentColor"
-						class="h-7 w-7"
-					>
-						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-					</svg>
-				</button>
-				{#if notifier === 'feeding'}
-					<FeedNotifier />
-				{/if}
+		<div
+			on:click={tryCloseOverlay}
+			on:keydown
+			on:keyup
+			class="pointer-events-auto flex h-full  w-full flex-col items-center justify-between"
+		>
+			<div
+				in:fly={{ y: -150, duration: 600 }}
+				out:fly={{ y: -150, duration: 200 }}
+				bind:this={dataContainer}
+				class="h-fit w-fit"
+			>
+				<svelte:component this={notifierMap[notifier].data} />
+			</div>
+
+			<div
+				in:fly={{ y: 150, duration: 600 }}
+				out:fly={{ y: 150, duration: 200 }}
+				bind:this={notifierContainer}
+				class="h-fit w-fit overflow-hidden"
+			>
+				<svelte:component this={notifierMap[notifier].notifier} />
 			</div>
 		</div>
 	{/if}

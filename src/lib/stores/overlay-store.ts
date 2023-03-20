@@ -1,8 +1,15 @@
-import { derived } from 'svelte/store';
+import { derived, writable } from 'svelte/store';
 import { feedingProgress } from './feeding-store';
 import { loadingStore } from './loading-store';
 import { currentNotifier } from './notifier-store';
 
-export const shouldOverlay =  derived(
-	[feedingProgress, loadingStore, currentNotifier ], 
-	([$feeding, $loading, $currentNotifier]) => $feeding || $loading || $currentNotifier !== null);
+export const showSideDrawer = writable(false);
+
+export const shouldOverlay = derived(
+	[feedingProgress, loadingStore, currentNotifier, showSideDrawer],
+	([$feeding, $loading, $currentNotifier, $showSideDrawer]) =>
+		$feeding
+		|| $loading
+		|| $showSideDrawer
+		|| $currentNotifier !== null
+);

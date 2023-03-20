@@ -3,7 +3,7 @@ export const toLocalTime = (timeInput: string): string => {
 	const hours = Number(time[0]);
 	const minutes = Number(time[1]);
 
-	let timeValue: string = '';
+	let timeValue = '';
 
 	if (hours > 0 && hours <= 12) {
 		timeValue = "" + hours;
@@ -21,7 +21,7 @@ export const toLocalTime = (timeInput: string): string => {
 
 export const threeHoursFromNow = (date: string, time: string): Date => {
 	const dateText = `${date}T${time}`;
-	let newDate = new Date(dateText);
+	const newDate = new Date(dateText);
 	newDate.setHours(newDate.getHours() + 3);
 	return newDate;
 }

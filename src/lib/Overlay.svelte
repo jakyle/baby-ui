@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { classes } from '../util/html-helpers';
+	import FeedingProgress from './NotifierProgress.svelte';
 	import Loading from './Loading.svelte';
 	import Notifications from './Notifications.svelte';
 	import NotifierFactory from './NotifierFactory.svelte';
 	import { shouldOverlay } from './stores/overlay-store';
+	import SideDrawer from './SideDrawer.svelte';
 	
 
 	$: overlayClasses = classes(
@@ -26,7 +28,9 @@
 </script>
 
 <div class={overlayClasses}>
+	<SideDrawer />
 	<Notifications />
 	<Loading />
+	<FeedingProgress />
 	<NotifierFactory />
 </div>

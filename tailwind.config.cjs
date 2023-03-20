@@ -42,7 +42,8 @@ module.exports = {
         'reverse-spin-slow': 'reverse-spin 3s linear infinite',
         'spin-slow': 'spin 3s linear infinite',
         'wiggle': 'wiggle 1.8s cubic-bezier(0.22, 0.61, 0.36, 1) infinite',
-        'bounce-spring': 'bounce-spring 1.6s cubic-bezier(0.280, 0.840, 0.420, 1) infinite'
+        'bounce-spring': 'bounce-spring 1.6s cubic-bezier(0.280, 0.840, 0.420, 1) infinite',
+        'draw-path': 'draw-path 1.5s linear forwards'
       },
       keyframes: {
         'reverse-spin': {
@@ -86,6 +87,11 @@ module.exports = {
           "100%": {
             transform: "scale(1,1) translateY(0);"
           }
+        },
+        'draw-path': {
+          "to": {
+            strokeDashoffset: '0'
+          }
         }
       }
     },
@@ -120,22 +126,27 @@ module.exports = {
     'animate-bounce-spring'
   ],
   plugins: [
+    require('@tailwindcss/forms'),
     require("daisyui"),
-    function({addVariant}) {
+    function ({
+      addVariant
+    }) {
       addVariant("child", "& > *");
       addVariant("child-hover", "& > *:hover");
       addVariant('child-hover-siblings', '&:has(*:hover) > *:not(:hover)');
       addVariant('grand-child-hover-siblings', '&:has(* > *:hover) > * > *:not(:hover)');
     },
-    plugin(function ({ matchUtilities, theme }) {
-      matchUtilities(
-        {
-          ['stroke-miterlimit']: (value) => ({
-            strokeMiterlimit: value,
-          }),
-        },
-        { values: theme('strokeMiterlimit') }
-      )
+    plugin(function ({
+        matchUtilities,
+        theme
+      }) {
+      matchUtilities({
+        ['stroke-miterlimit']: (value) => ({
+          strokeMiterlimit: value,
+        }),
+      }, {
+        values: theme('strokeMiterlimit')
+      })
       matchUtilities({
         ['stroke-dasharray']: (value) => ({
           strokeDasharray: value,

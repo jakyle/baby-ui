@@ -1,8 +1,6 @@
-import { goto } from "$app/navigation";
 import { Auth } from "aws-amplify";
 import { writable, derived } from "svelte/store";
 import { isLoading } from "./loading-store";
-import { page } from '$app/stores';
 
 export type AuthState = 
 	| 'login' 
@@ -37,7 +35,6 @@ export async function signIn(email: string, password: string) {
 		isLoading(false);
 	} catch (error) {
 		console.log('error signing in', error);
-		error = error;
 		throw error;
 	}
 }
@@ -53,7 +50,6 @@ export async function resetPassword(user: any, newPassword: string) {
 		isLoading(false);
 	} catch (error) {
 		console.log('error signing in', error);
-		error = error;
 		throw error;
 	}
 }
@@ -97,7 +93,6 @@ export async function setLogoutState(currentUser: any) {
 
 export async function submitMfa(user: any, challengeCode: string) {
 	try {
-		const userSession = await Auth.verifyTotpToken(user, challengeCode.trim());
 		const successCode = await Auth.setPreferredMFA(user, 'TOTP');
 
 		if (successCode === 'SUCCESS') {
@@ -106,7 +101,6 @@ export async function submitMfa(user: any, challengeCode: string) {
 		}
 	} catch (error) {
 		console.log(error);
-		error = error;
 		throw error;
 	}
 }

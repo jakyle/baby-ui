@@ -12,4 +12,4 @@ export const isClientInRect = <TClient extends {
 	left: number,
 	right: number
 }>({ top, bottom, left, right }: TRect, { clientX, clientY }: TClient) =>
-	clientY >= top && clientY <= bottom && clientX >= left && clientX <= right
+	clientY >= top && clientY <= bottom && clientX >= left && clientX <= right;
