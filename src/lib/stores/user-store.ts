@@ -93,12 +93,11 @@ export async function setLogoutState(currentUser: any) {
 
 export async function submitMfa(user: any, challengeCode: string) {
 	try {
-		const successCode = await Auth.setPreferredMFA(user, 'TOTP');
 
-		if (successCode === 'SUCCESS') {
-			authStateStore.set('login');
-			isLoading(false);
-		}
+		await Auth.verifyTotpToken(user, challengeCode);
+		userStore.set(user);
+		authStateStore.set('login');
+		isLoading(false);
 	} catch (error) {
 		console.log(error);
 		throw error;
