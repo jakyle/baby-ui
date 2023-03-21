@@ -1,0 +1,12 @@
+{
+  "AppSyncApiName": "babyui",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authbabyui4c1521734c152173",
+      "Outputs.UserPoolId"
+    ]
+  },
+  "AuthModeLastUpdated": "2023-03-21T03:07:24.143Z"
+}

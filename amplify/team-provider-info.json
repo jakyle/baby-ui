@@ -24,7 +24,11 @@
         }
       },
       "auth": {
-        "babyui4c1521734c152173": {}
+        "babyui4c1521734c152173": {},
+        "userPoolGroups": {}
+      },
+      "api": {
+        "babyui": {}
       }
     }
   }

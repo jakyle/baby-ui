@@ -10,8 +10,8 @@
 		'warning': 'alert-warning',
 	}
 
-	const notificationClasses = (notification: Notification) => 
-		classes('alert', 'pointer-events-auto', alertMap[notification]);
+	const notificationClasses = (notification: Notification) =>
+    classes('absolute', 'alert', 'pointer-events-auto', alertMap[notification]);
 
 </script>
 

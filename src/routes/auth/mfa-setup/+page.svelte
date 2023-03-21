@@ -35,20 +35,22 @@
 		} catch (error) {
 			pushNotification('Failed to copy to clipboard!');
 		}
-	}
+	};
 </script>
 
-<div class="card-bordered card bg-base-100 max-w-sm landscape:sm:max-w-xl landscape:sm:max-h-72">
+<div class="card-bordered card max-w-sm bg-base-100 landscape:sm:max-h-72 landscape:sm:max-w-xl">
 	<div class="card-body w-full p-4">
 		{#await $mfaSetupStore then mfaSetup}
 			{#if mfaSetup}
-				<div class="flex flex-col items-center justify-center gap-2 landscape:sm:grid landscape:sm:gap-4">
+				<div
+					class="flex flex-col items-center justify-center gap-2 landscape:sm:grid landscape:sm:gap-4"
+				>
 					<p
 						class="whitespace-normal text-center landscape:sm:col-start-1 landscape:sm:col-end-5 landscape:sm:row-start-1"
 					>
 						Scan the code below with your preferred authenticator (like google authenticator) then
-						type in the number in the field <span class="font-extrabold underline">OR</span> copy the code under the QR and
-						paste it in your auth app.
+						type in the number in the field <span class="font-extrabold underline">OR</span> copy the
+						code under the QR and paste it in your auth app.
 					</p>
 
 					<div
@@ -58,10 +60,10 @@
 					</div>
 
 					<div
-						class="flex flex-col gap-4 sm:flex-row justify-center  items-center sm:gap-2 text-xs landscape:sm:col-start-1 landscape:sm:col-end-5 landscape:sm:row-start-4 landscape:sm:text-base"
+						class="flex flex-col items-center justify-center gap-4  text-xs sm:flex-row sm:gap-2 landscape:sm:col-start-1 landscape:sm:col-end-5 landscape:sm:row-start-4 landscape:sm:text-base"
 					>
-						<code class="text-xs bg-base-200 py-1 px-1">{mfaSetup.code}</code>
-						<button class=" w-36 sm:w-12 sm:btn-sm btn" on:click={async () => await copyMfaCode()}>
+						<code class="bg-base-200 py-1 px-1 text-xs">{mfaSetup.code}</code>
+						<button class=" btn w-36 sm:btn-sm sm:w-12" on:click={async () => await copyMfaCode()}>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								fill="none"
@@ -92,8 +94,9 @@
 
 						<button class="btn w-full sm:w-72" type="submit">SUBMIT</button>
 						<div class="h-3 w-full">
-							<small class="animate-pulse text-sm text-error" class:invisible={errorType === undefined}
-								>{errorType}</small
+							<small
+								class="animate-pulse text-sm text-error"
+								class:invisible={errorType === undefined}>{errorType}</small
 							>
 						</div>
 					</form>

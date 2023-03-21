@@ -3,32 +3,44 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateFeeding = /* GraphQL */ `
-  subscription OnCreateFeeding($DateTime: String, $Id: String) {
-    onCreateFeeding(DateTime: $DateTime, Id: $Id) {
+  subscription OnCreateFeeding($filter: ModelSubscriptionFeedingFilterInput) {
+    onCreateFeeding(filter: $filter) {
       DateTime
-      Id
+      ID
       By
       Oz
+      type
+      id
+      createdAt
+      updatedAt
     }
   }
 `;
 export const onUpdateFeeding = /* GraphQL */ `
-  subscription OnUpdateFeeding($DateTime: String, $Id: String) {
-    onUpdateFeeding(DateTime: $DateTime, Id: $Id) {
+  subscription OnUpdateFeeding($filter: ModelSubscriptionFeedingFilterInput) {
+    onUpdateFeeding(filter: $filter) {
       DateTime
-      Id
+      ID
       By
       Oz
+      type
+      id
+      createdAt
+      updatedAt
     }
   }
 `;
 export const onDeleteFeeding = /* GraphQL */ `
-  subscription OnDeleteFeeding($DateTime: String, $Id: String) {
-    onDeleteFeeding(DateTime: $DateTime, Id: $Id) {
+  subscription OnDeleteFeeding($filter: ModelSubscriptionFeedingFilterInput) {
+    onDeleteFeeding(filter: $filter) {
       DateTime
-      Id
+      ID
       By
       Oz
+      type
+      id
+      createdAt
+      updatedAt
     }
   }
 `;

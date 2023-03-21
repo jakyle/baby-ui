@@ -18,11 +18,11 @@ const getLocalFeeding = (): Array<FeedingItem> => {
 
 export const feedingStore = writable<Array<FeedingItem>>(getLocalFeeding());
 
-const getFeedingItem = async (): Promise<Array<FeedingItem>> => {
+const getFeedingItems = async (): Promise<Array<FeedingItem>> => {
 	try {
 		const result = await getFeedings();
-		const feedingItems: Array<FeedingItem> = result.data?.listFeedings?.items?.map((item) => ({
-			id: item?.Id ?? '',
+		const feedingItems: Array<FeedingItem> = result.data?.feedingByDate?.items?.map((item) => ({
+			id: item?.ID ?? '',
 			by: item?.By ?? '',
 			oz: item?.Oz ?? 0,
 			dateTime: item?.DateTime ?? ''
@@ -31,8 +31,6 @@ const getFeedingItem = async (): Promise<Array<FeedingItem>> => {
 		if (feedingItems.length < 1) {
 			return getLocalFeeding();
 		}
-
-		feedingItems.sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime());
 
 		return feedingItems;
 	} catch (error) {
@@ -57,7 +55,7 @@ export const tryAddFeeding = (feedItem: FeedingItem) => {
 export const setFeedingData = async (): Promise<void> => {
 	isLoading(true);
 	try {
-		feedingStore.set(await getFeedingItem());
+		feedingStore.set(await getFeedingItems());
 	} catch (error) {
 		pushNotification('Something went wrong when fetching data', Notification.ERROR)
 		console.error(error);
@@ -81,7 +79,7 @@ export const sendFeeding = async (date: string, time: string, oz: number, by: st
 		feedingStore.update(feeding => {
 			const updatedFeeding = [...feeding, {
 				dateTime: result!.DateTime,
-				id: result.Id,
+				id: result.ID,
 				by: result.By!,
 				oz: result.Oz!,
 			}];
