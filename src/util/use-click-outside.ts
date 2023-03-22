@@ -10,7 +10,6 @@ export const clickOutside = (
 		}
 	}
 
-
 	document.addEventListener('click', onClick, true);
 
 	return {

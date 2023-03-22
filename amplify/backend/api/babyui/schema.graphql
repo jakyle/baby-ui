@@ -3,13 +3,81 @@
 input AMPLIFY {
 	globalAuthRule: AuthRule = { allow: public }
 } # FOR TESTING ONLY!
-type Feeding
+type CareGiver
 	@model
-	@auth(rules: [{ allow: public }, { allow: groups, groups: ["family"] }]) {
-	DateTime: String!
-	ID: String!
-	By: String
-	Oz: Int!
-	type: String!
-		@index(name: "feedingByDate", queryField: "feedingByDate", sortKeyFields: ["DateTime"])
+	@auth(
+		rules: [
+			{ allow: public },
+			{ allow: owner },
+			{ allow: groups, groups: ["family"], operations: [read] }
+		]
+	) {
+	family: Family @belongsTo @auth(rules: [{ allow: public }, { allow: owner }])
+	userId: String!
+	email: AWSEmail!
+	name: String
+	pendingInvites: [String]
+		@auth(
+			rules: [
+				{ allow: public },
+				{ allow: owner },
+				{ allow: groups, groups: ["family"], operations: [update] }
+			]
+		)
+}
+
+enum Gender {
+	MALE
+	FEMALE
+}
+
+type Family @model @auth(rules: [{ allow: public }, { allow: groups, groups: ["family"] }]) {
+	careGivers: [CareGiver] @hasMany
+	babies: [Baby] @hasMany
+	name: String!
+}
+
+type Baby @model @auth(rules: [{ allow: public }, { allow: groups, groups: ["family"] }]) {
+	name: String!
+	dateOfBirth: String!
+	gender: Gender!
+	family: Family @belongsTo
+}
+
+type FormulaFeeding
+	@model
+	@searchable
+	@auth(
+		rules: [
+			{ allow: public },
+			{ allow: groups, groups: ["family"], operations: [read] },
+			{ allow: owner }
+		]
+	) {
+	at: AWSDateTime! @index(name: "byDate", queryField: "byDate", sortKeyFields: ["at"])
+	by: CareGiver! @belongsTo
+	for: Baby! @belongTo
+	oz: Int!
+	nextFeeding: AWSDateTime!
+}
+
+enum Waste {
+	PEE
+	POOP
+	BOTH
+}
+
+type Diaper
+	@model
+	@searchable
+	@auth(
+		rules: [
+			{ allow: public },
+			{ allow: groups, groups: ["family"], operations: [read] },
+			{ allow: owner }
+		]
+	) {
+	at: AWSDateTime! @index(name: "byDate", queryField: "byDate", sortKeyFields: ["at"])
+	by: CareGiver! @belongsTo
+	waste: Waste
 }
