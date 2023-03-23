@@ -24,6 +24,8 @@ type CareGiver
 				{ allow: groups, groups: ["family"], operations: [update] }
 			]
 		)
+	formulaFeeding: [FormulaFeeding] @hasMany
+	diaperChanges: [DiaperChange] @hasMany
 }
 
 enum Gender {
@@ -42,6 +44,8 @@ type Baby @model @auth(rules: [{ allow: public }, { allow: groups, groups: ["fam
 	dateOfBirth: String!
 	gender: Gender!
 	family: Family @belongsTo
+	formulaFeeding: [FormulaFeeding] @hasMany
+	diaperChanges: [DiaperChange] @hasMany
 }
 
 type FormulaFeeding
@@ -54,9 +58,10 @@ type FormulaFeeding
 			{ allow: owner }
 		]
 	) {
-	at: AWSDateTime! @index(name: "byDate", queryField: "byDate", sortKeyFields: ["at"])
 	by: CareGiver! @belongsTo
-	for: Baby! @belongTo
+	when: AWSDateTime! 
+	for: Baby! @belongsTo
+	type: String! @index(name: "byFeedingDate", queryField: "byFeedingDate", sortKeyFields: ["when"])
 	oz: Int!
 	nextFeeding: AWSDateTime!
 }
@@ -67,7 +72,7 @@ enum Waste {
 	BOTH
 }
 
-type Diaper
+type DiaperChange
 	@model
 	@searchable
 	@auth(
@@ -77,7 +82,9 @@ type Diaper
 			{ allow: owner }
 		]
 	) {
-	at: AWSDateTime! @index(name: "byDate", queryField: "byDate", sortKeyFields: ["at"])
 	by: CareGiver! @belongsTo
-	waste: Waste
+	when: AWSDateTime!
+	for: Baby! @belongsTo
+	type: String! @index(name: "byDiaperChangeDate", queryField: "byDiaperChangeDate", sortKeyFields: ["when"])
+	waste: Waste!
 }
