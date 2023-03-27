@@ -6,16 +6,20 @@ export type CreateCareGiverInput = {
   userId: string,
   email: string,
   name?: string | null,
-  pendingInvites?: Array< string | null > | null,
+  pendingInvites?: Array< NameAndIdInput | null > | null,
   id?: string | null,
   familyCareGiversId?: string | null,
+};
+
+export type NameAndIdInput = {
+  id: string,
+  name: string,
 };
 
 export type ModelCareGiverConditionInput = {
   userId?: ModelStringInput | null,
   email?: ModelStringInput | null,
   name?: ModelStringInput | null,
-  pendingInvites?: ModelStringInput | null,
   and?: Array< ModelCareGiverConditionInput | null > | null,
   or?: Array< ModelCareGiverConditionInput | null > | null,
   not?: ModelCareGiverConditionInput | null,
@@ -84,7 +88,7 @@ export type CareGiver = {
   userId: string,
   email: string,
   name?: string | null,
-  pendingInvites?: Array< string | null > | null,
+  pendingInvites?:  Array<NameAndId | null > | null,
   formulaFeeding?: ModelFormulaFeedingConnection | null,
   diaperChanges?: ModelDiaperChangeConnection | null,
   id: string,
@@ -186,11 +190,17 @@ export enum Waste {
 }
 
 
+export type NameAndId = {
+  __typename: "NameAndId",
+  id: string,
+  name: string,
+};
+
 export type UpdateCareGiverInput = {
   userId?: string | null,
   email?: string | null,
   name?: string | null,
-  pendingInvites?: Array< string | null > | null,
+  pendingInvites?: Array< NameAndIdInput | null > | null,
   id: string,
   familyCareGiversId?: string | null,
 };
@@ -345,12 +355,17 @@ export type ModelCareGiverFilterInput = {
   userId?: ModelStringInput | null,
   email?: ModelStringInput | null,
   name?: ModelStringInput | null,
-  pendingInvites?: ModelStringInput | null,
   and?: Array< ModelCareGiverFilterInput | null > | null,
   or?: Array< ModelCareGiverFilterInput | null > | null,
   not?: ModelCareGiverFilterInput | null,
   familyCareGiversId?: ModelIDInput | null,
 };
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
 
 export type ModelFamilyFilterInput = {
   name?: ModelStringInput | null,
@@ -396,12 +411,6 @@ export type ModelStringKeyConditionInput = {
   between?: Array< string | null > | null,
   beginsWith?: string | null,
 };
-
-export enum ModelSortDirection {
-  ASC = "ASC",
-  DESC = "DESC",
-}
-
 
 export type SearchableFormulaFeedingFilterInput = {
   when?: SearchableStringFilterInput | null,
@@ -618,7 +627,6 @@ export type ModelSubscriptionCareGiverFilterInput = {
   userId?: ModelSubscriptionStringInput | null,
   email?: ModelSubscriptionStringInput | null,
   name?: ModelSubscriptionStringInput | null,
-  pendingInvites?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionCareGiverFilterInput | null > | null,
   or?: Array< ModelSubscriptionCareGiverFilterInput | null > | null,
 };
@@ -707,7 +715,11 @@ export type CreateCareGiverMutation = {
     userId: string,
     email: string,
     name?: string | null,
-    pendingInvites?: Array< string | null > | null,
+    pendingInvites?:  Array< {
+      __typename: "NameAndId",
+      id: string,
+      name: string,
+    } | null > | null,
     formulaFeeding?:  {
       __typename: "ModelFormulaFeedingConnection",
       items:  Array< {
@@ -775,7 +787,11 @@ export type UpdateCareGiverMutation = {
     userId: string,
     email: string,
     name?: string | null,
-    pendingInvites?: Array< string | null > | null,
+    pendingInvites?:  Array< {
+      __typename: "NameAndId",
+      id: string,
+      name: string,
+    } | null > | null,
     formulaFeeding?:  {
       __typename: "ModelFormulaFeedingConnection",
       items:  Array< {
@@ -843,7 +859,11 @@ export type DeleteCareGiverMutation = {
     userId: string,
     email: string,
     name?: string | null,
-    pendingInvites?: Array< string | null > | null,
+    pendingInvites?:  Array< {
+      __typename: "NameAndId",
+      id: string,
+      name: string,
+    } | null > | null,
     formulaFeeding?:  {
       __typename: "ModelFormulaFeedingConnection",
       items:  Array< {
@@ -900,7 +920,6 @@ export type CreateFamilyMutation = {
         userId: string,
         email: string,
         name?: string | null,
-        pendingInvites?: Array< string | null > | null,
         id: string,
         createdAt: string,
         updatedAt: string,
@@ -945,7 +964,6 @@ export type UpdateFamilyMutation = {
         userId: string,
         email: string,
         name?: string | null,
-        pendingInvites?: Array< string | null > | null,
         id: string,
         createdAt: string,
         updatedAt: string,
@@ -990,7 +1008,6 @@ export type DeleteFamilyMutation = {
         userId: string,
         email: string,
         name?: string | null,
-        pendingInvites?: Array< string | null > | null,
         id: string,
         createdAt: string,
         updatedAt: string,
@@ -1238,7 +1255,11 @@ export type CreateFormulaFeedingMutation = {
       userId: string,
       email: string,
       name?: string | null,
-      pendingInvites?: Array< string | null > | null,
+      pendingInvites?:  Array< {
+        __typename: "NameAndId",
+        id: string,
+        name: string,
+      } | null > | null,
       formulaFeeding?:  {
         __typename: "ModelFormulaFeedingConnection",
         nextToken?: string | null,
@@ -1311,7 +1332,11 @@ export type UpdateFormulaFeedingMutation = {
       userId: string,
       email: string,
       name?: string | null,
-      pendingInvites?: Array< string | null > | null,
+      pendingInvites?:  Array< {
+        __typename: "NameAndId",
+        id: string,
+        name: string,
+      } | null > | null,
       formulaFeeding?:  {
         __typename: "ModelFormulaFeedingConnection",
         nextToken?: string | null,
@@ -1384,7 +1409,11 @@ export type DeleteFormulaFeedingMutation = {
       userId: string,
       email: string,
       name?: string | null,
-      pendingInvites?: Array< string | null > | null,
+      pendingInvites?:  Array< {
+        __typename: "NameAndId",
+        id: string,
+        name: string,
+      } | null > | null,
       formulaFeeding?:  {
         __typename: "ModelFormulaFeedingConnection",
         nextToken?: string | null,
@@ -1457,7 +1486,11 @@ export type CreateDiaperChangeMutation = {
       userId: string,
       email: string,
       name?: string | null,
-      pendingInvites?: Array< string | null > | null,
+      pendingInvites?:  Array< {
+        __typename: "NameAndId",
+        id: string,
+        name: string,
+      } | null > | null,
       formulaFeeding?:  {
         __typename: "ModelFormulaFeedingConnection",
         nextToken?: string | null,
@@ -1529,7 +1562,11 @@ export type UpdateDiaperChangeMutation = {
       userId: string,
       email: string,
       name?: string | null,
-      pendingInvites?: Array< string | null > | null,
+      pendingInvites?:  Array< {
+        __typename: "NameAndId",
+        id: string,
+        name: string,
+      } | null > | null,
       formulaFeeding?:  {
         __typename: "ModelFormulaFeedingConnection",
         nextToken?: string | null,
@@ -1601,7 +1638,11 @@ export type DeleteDiaperChangeMutation = {
       userId: string,
       email: string,
       name?: string | null,
-      pendingInvites?: Array< string | null > | null,
+      pendingInvites?:  Array< {
+        __typename: "NameAndId",
+        id: string,
+        name: string,
+      } | null > | null,
       formulaFeeding?:  {
         __typename: "ModelFormulaFeedingConnection",
         nextToken?: string | null,
@@ -1678,7 +1719,11 @@ export type GetCareGiverQuery = {
     userId: string,
     email: string,
     name?: string | null,
-    pendingInvites?: Array< string | null > | null,
+    pendingInvites?:  Array< {
+      __typename: "NameAndId",
+      id: string,
+      name: string,
+    } | null > | null,
     formulaFeeding?:  {
       __typename: "ModelFormulaFeedingConnection",
       items:  Array< {
@@ -1741,7 +1786,57 @@ export type ListCareGiversQuery = {
       userId: string,
       email: string,
       name?: string | null,
-      pendingInvites?: Array< string | null > | null,
+      pendingInvites?:  Array< {
+        __typename: "NameAndId",
+        id: string,
+        name: string,
+      } | null > | null,
+      formulaFeeding?:  {
+        __typename: "ModelFormulaFeedingConnection",
+        nextToken?: string | null,
+      } | null,
+      diaperChanges?:  {
+        __typename: "ModelDiaperChangeConnection",
+        nextToken?: string | null,
+      } | null,
+      id: string,
+      createdAt: string,
+      updatedAt: string,
+      familyCareGiversId?: string | null,
+      owner?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type CaregiverByUserQueryVariables = {
+  userId: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelCareGiverFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type CaregiverByUserQuery = {
+  caregiverByUser?:  {
+    __typename: "ModelCareGiverConnection",
+    items:  Array< {
+      __typename: "CareGiver",
+      family?:  {
+        __typename: "Family",
+        name: string,
+        id: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
+      userId: string,
+      email: string,
+      name?: string | null,
+      pendingInvites?:  Array< {
+        __typename: "NameAndId",
+        id: string,
+        name: string,
+      } | null > | null,
       formulaFeeding?:  {
         __typename: "ModelFormulaFeedingConnection",
         nextToken?: string | null,
@@ -1774,7 +1869,6 @@ export type GetFamilyQuery = {
         userId: string,
         email: string,
         name?: string | null,
-        pendingInvites?: Array< string | null > | null,
         id: string,
         createdAt: string,
         updatedAt: string,
@@ -1954,7 +2048,11 @@ export type GetFormulaFeedingQuery = {
       userId: string,
       email: string,
       name?: string | null,
-      pendingInvites?: Array< string | null > | null,
+      pendingInvites?:  Array< {
+        __typename: "NameAndId",
+        id: string,
+        name: string,
+      } | null > | null,
       formulaFeeding?:  {
         __typename: "ModelFormulaFeedingConnection",
         nextToken?: string | null,
@@ -2023,7 +2121,6 @@ export type ListFormulaFeedingsQuery = {
         userId: string,
         email: string,
         name?: string | null,
-        pendingInvites?: Array< string | null > | null,
         id: string,
         createdAt: string,
         updatedAt: string,
@@ -2074,7 +2171,6 @@ export type ByFeedingDateQuery = {
         userId: string,
         email: string,
         name?: string | null,
-        pendingInvites?: Array< string | null > | null,
         id: string,
         createdAt: string,
         updatedAt: string,
@@ -2125,7 +2221,6 @@ export type SearchFormulaFeedingsQuery = {
         userId: string,
         email: string,
         name?: string | null,
-        pendingInvites?: Array< string | null > | null,
         id: string,
         createdAt: string,
         updatedAt: string,
@@ -2193,7 +2288,11 @@ export type GetDiaperChangeQuery = {
       userId: string,
       email: string,
       name?: string | null,
-      pendingInvites?: Array< string | null > | null,
+      pendingInvites?:  Array< {
+        __typename: "NameAndId",
+        id: string,
+        name: string,
+      } | null > | null,
       formulaFeeding?:  {
         __typename: "ModelFormulaFeedingConnection",
         nextToken?: string | null,
@@ -2261,7 +2360,6 @@ export type ListDiaperChangesQuery = {
         userId: string,
         email: string,
         name?: string | null,
-        pendingInvites?: Array< string | null > | null,
         id: string,
         createdAt: string,
         updatedAt: string,
@@ -2311,7 +2409,6 @@ export type ByDiaperChangeDateQuery = {
         userId: string,
         email: string,
         name?: string | null,
-        pendingInvites?: Array< string | null > | null,
         id: string,
         createdAt: string,
         updatedAt: string,
@@ -2361,7 +2458,6 @@ export type SearchDiaperChangesQuery = {
         userId: string,
         email: string,
         name?: string | null,
-        pendingInvites?: Array< string | null > | null,
         id: string,
         createdAt: string,
         updatedAt: string,
@@ -2435,7 +2531,11 @@ export type OnCreateCareGiverSubscription = {
     userId: string,
     email: string,
     name?: string | null,
-    pendingInvites?: Array< string | null > | null,
+    pendingInvites?:  Array< {
+      __typename: "NameAndId",
+      id: string,
+      name: string,
+    } | null > | null,
     formulaFeeding?:  {
       __typename: "ModelFormulaFeedingConnection",
       items:  Array< {
@@ -2503,7 +2603,11 @@ export type OnUpdateCareGiverSubscription = {
     userId: string,
     email: string,
     name?: string | null,
-    pendingInvites?: Array< string | null > | null,
+    pendingInvites?:  Array< {
+      __typename: "NameAndId",
+      id: string,
+      name: string,
+    } | null > | null,
     formulaFeeding?:  {
       __typename: "ModelFormulaFeedingConnection",
       items:  Array< {
@@ -2571,7 +2675,11 @@ export type OnDeleteCareGiverSubscription = {
     userId: string,
     email: string,
     name?: string | null,
-    pendingInvites?: Array< string | null > | null,
+    pendingInvites?:  Array< {
+      __typename: "NameAndId",
+      id: string,
+      name: string,
+    } | null > | null,
     formulaFeeding?:  {
       __typename: "ModelFormulaFeedingConnection",
       items:  Array< {
@@ -2627,7 +2735,6 @@ export type OnCreateFamilySubscription = {
         userId: string,
         email: string,
         name?: string | null,
-        pendingInvites?: Array< string | null > | null,
         id: string,
         createdAt: string,
         updatedAt: string,
@@ -2671,7 +2778,6 @@ export type OnUpdateFamilySubscription = {
         userId: string,
         email: string,
         name?: string | null,
-        pendingInvites?: Array< string | null > | null,
         id: string,
         createdAt: string,
         updatedAt: string,
@@ -2715,7 +2821,6 @@ export type OnDeleteFamilySubscription = {
         userId: string,
         email: string,
         name?: string | null,
-        pendingInvites?: Array< string | null > | null,
         id: string,
         createdAt: string,
         updatedAt: string,
@@ -2960,7 +3065,11 @@ export type OnCreateFormulaFeedingSubscription = {
       userId: string,
       email: string,
       name?: string | null,
-      pendingInvites?: Array< string | null > | null,
+      pendingInvites?:  Array< {
+        __typename: "NameAndId",
+        id: string,
+        name: string,
+      } | null > | null,
       formulaFeeding?:  {
         __typename: "ModelFormulaFeedingConnection",
         nextToken?: string | null,
@@ -3033,7 +3142,11 @@ export type OnUpdateFormulaFeedingSubscription = {
       userId: string,
       email: string,
       name?: string | null,
-      pendingInvites?: Array< string | null > | null,
+      pendingInvites?:  Array< {
+        __typename: "NameAndId",
+        id: string,
+        name: string,
+      } | null > | null,
       formulaFeeding?:  {
         __typename: "ModelFormulaFeedingConnection",
         nextToken?: string | null,
@@ -3106,7 +3219,11 @@ export type OnDeleteFormulaFeedingSubscription = {
       userId: string,
       email: string,
       name?: string | null,
-      pendingInvites?: Array< string | null > | null,
+      pendingInvites?:  Array< {
+        __typename: "NameAndId",
+        id: string,
+        name: string,
+      } | null > | null,
       formulaFeeding?:  {
         __typename: "ModelFormulaFeedingConnection",
         nextToken?: string | null,
@@ -3179,7 +3296,11 @@ export type OnCreateDiaperChangeSubscription = {
       userId: string,
       email: string,
       name?: string | null,
-      pendingInvites?: Array< string | null > | null,
+      pendingInvites?:  Array< {
+        __typename: "NameAndId",
+        id: string,
+        name: string,
+      } | null > | null,
       formulaFeeding?:  {
         __typename: "ModelFormulaFeedingConnection",
         nextToken?: string | null,
@@ -3251,7 +3372,11 @@ export type OnUpdateDiaperChangeSubscription = {
       userId: string,
       email: string,
       name?: string | null,
-      pendingInvites?: Array< string | null > | null,
+      pendingInvites?:  Array< {
+        __typename: "NameAndId",
+        id: string,
+        name: string,
+      } | null > | null,
       formulaFeeding?:  {
         __typename: "ModelFormulaFeedingConnection",
         nextToken?: string | null,
@@ -3323,7 +3448,11 @@ export type OnDeleteDiaperChangeSubscription = {
       userId: string,
       email: string,
       name?: string | null,
-      pendingInvites?: Array< string | null > | null,
+      pendingInvites?:  Array< {
+        __typename: "NameAndId",
+        id: string,
+        name: string,
+      } | null > | null,
       formulaFeeding?:  {
         __typename: "ModelFormulaFeedingConnection",
         nextToken?: string | null,

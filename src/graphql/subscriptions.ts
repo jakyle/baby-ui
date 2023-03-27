@@ -23,7 +23,10 @@ export const onCreateCareGiver = /* GraphQL */ `
       userId
       email
       name
-      pendingInvites
+      pendingInvites {
+        id
+        name
+      }
       formulaFeeding {
         items {
           when
@@ -82,7 +85,10 @@ export const onUpdateCareGiver = /* GraphQL */ `
       userId
       email
       name
-      pendingInvites
+      pendingInvites {
+        id
+        name
+      }
       formulaFeeding {
         items {
           when
@@ -141,7 +147,10 @@ export const onDeleteCareGiver = /* GraphQL */ `
       userId
       email
       name
-      pendingInvites
+      pendingInvites {
+        id
+        name
+      }
       formulaFeeding {
         items {
           when
@@ -187,7 +196,6 @@ export const onCreateFamily = /* GraphQL */ `
           userId
           email
           name
-          pendingInvites
           id
           createdAt
           updatedAt
@@ -223,7 +231,6 @@ export const onUpdateFamily = /* GraphQL */ `
           userId
           email
           name
-          pendingInvites
           id
           createdAt
           updatedAt
@@ -259,7 +266,6 @@ export const onDeleteFamily = /* GraphQL */ `
           userId
           email
           name
-          pendingInvites
           id
           createdAt
           updatedAt
@@ -465,7 +471,10 @@ export const onCreateFormulaFeeding = /* GraphQL */ `
         userId
         email
         name
-        pendingInvites
+        pendingInvites {
+          id
+          name
+        }
         formulaFeeding {
           nextToken
         }
@@ -528,7 +537,10 @@ export const onUpdateFormulaFeeding = /* GraphQL */ `
         userId
         email
         name
-        pendingInvites
+        pendingInvites {
+          id
+          name
+        }
         formulaFeeding {
           nextToken
         }
@@ -591,7 +603,10 @@ export const onDeleteFormulaFeeding = /* GraphQL */ `
         userId
         email
         name
-        pendingInvites
+        pendingInvites {
+          id
+          name
+        }
         formulaFeeding {
           nextToken
         }
@@ -654,7 +669,10 @@ export const onCreateDiaperChange = /* GraphQL */ `
         userId
         email
         name
-        pendingInvites
+        pendingInvites {
+          id
+          name
+        }
         formulaFeeding {
           nextToken
         }
@@ -716,7 +734,10 @@ export const onUpdateDiaperChange = /* GraphQL */ `
         userId
         email
         name
-        pendingInvites
+        pendingInvites {
+          id
+          name
+        }
         formulaFeeding {
           nextToken
         }
@@ -778,7 +799,10 @@ export const onDeleteDiaperChange = /* GraphQL */ `
         userId
         email
         name
-        pendingInvites
+        pendingInvites {
+          id
+          name
+        }
         formulaFeeding {
           nextToken
         }

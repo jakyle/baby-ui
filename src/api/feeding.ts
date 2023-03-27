@@ -2,42 +2,42 @@ import { API, type GraphQLResult } from "@aws-amplify/api";
 import type { Observable } from 'zen-observable-ts';
 import type { AddFeedingItem } from './feeding.model';
 import config from "../aws-exports";
-import { createFeeding } from "../graphql/mutations";
+import { createFormulaFeeding } from "../graphql/mutations";
 import { v4 as uuidv4 } from 'uuid';
-import type { CreateFeedingInput, CreateFeedingMutation, FeedingByDateQuery, OnCreateFeedingSubscription } from '../API';
-import { onCreateFeeding } from "../graphql/subscriptions";
-import { feedingByDate } from "../graphql/queries";
+import type { CreateFormulaFeedingInput, CreateFormulaFeedingMutation, ByFeedingDateQuery, OnCreateFormulaFeedingSubscription, FormulaFeeding } from '../API';
+import { onCreateFormulaFeeding } from "../graphql/subscriptions";
+import { byFeedingDate } from "../graphql/queries";
 
 
 export function feedingSubscription() {
 	API.configure(config);
-	const sub: Observable<any> = API.graphql<OnCreateFeedingSubscription>({
-		query: onCreateFeeding,
+	const sub: Observable<any> = API.graphql<OnCreateFormulaFeedingSubscription>({
+		query: onCreateFormulaFeeding,
 	}) as Observable<any>
 
 	return sub;
 }
 
 
-export async function getFeedings() {
+export async function getFeedings(): Promise<FormulaFeeding[]> {
 	API.configure(config)
 	const response = await API.graphql({
-		query: feedingByDate,
+		query: byFeedingDate,
 		variables: {
 			limit: 50,
 			type: 'feeding',
 			sortDirection: 'DESC'
 		},
-	})
+	}) as GraphQLResult<ByFeedingDateQuery>
 
-	return response as GraphQLResult<FeedingByDateQuery>;
+	return (response.data?.byFeedingDate?.items ?? []) as FormulaFeeding[];
 }
 
 
 export async function addFeeding(data: AddFeedingItem) {
 	API.configure(config);
-	const response = (await API.graphql<CreateFeedingInput>({
-		query: createFeeding,
+	const response = (await API.graphql<CreateFormulaFeedingInput>({
+		query: createFormulaFeeding,
 		variables: {
 			input: {
 				DateTime: data.dateTime,
@@ -47,7 +47,7 @@ export async function addFeeding(data: AddFeedingItem) {
 				Oz: data.oz
 			}
 		},
-	})) as GraphQLResult<CreateFeedingMutation>
+	})) as GraphQLResult<CreateFormulaFeedingMutation>
 
-	return response.data?.createFeeding;
+	return response.data?.createFormulaFeeding;
 }

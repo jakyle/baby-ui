@@ -21,11 +21,11 @@ export const feedingStore = writable<Array<FeedingItem>>(getLocalFeeding());
 const getFeedingItems = async (): Promise<Array<FeedingItem>> => {
 	try {
 		const result = await getFeedings();
-		const feedingItems: Array<FeedingItem> = result.data?.feedingByDate?.items?.map((item) => ({
-			id: item?.ID ?? '',
-			by: item?.By ?? '',
-			oz: item?.Oz ?? 0,
-			dateTime: item?.DateTime ?? ''
+		const feedingItems: Array<FeedingItem> = result.map((item) => ({
+			id: item?.id ?? '',
+			by: item?.by?.name ?? '',
+			oz: item?.oz ?? 0,
+			dateTime: item?.when ?? ''
 		})) ?? [];
 
 		if (feedingItems.length < 1) {
@@ -78,10 +78,10 @@ export const sendFeeding = async (date: string, time: string, oz: number, by: st
 		pushNotification('Feeding Success!', Notification.SUCCESS)
 		feedingStore.update(feeding => {
 			const updatedFeeding = [...feeding, {
-				dateTime: result!.DateTime,
-				id: result.ID,
-				by: result.By!,
-				oz: result.Oz!,
+				dateTime: result!.when,
+				id: result.id,
+				by: result.by!,
+				oz: result.oz!,
 			}];
 
 			updatedFeeding.sort((a, b) => new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime());

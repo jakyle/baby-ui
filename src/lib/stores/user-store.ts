@@ -1,27 +1,50 @@
 import { Auth } from "aws-amplify";
-import { writable, derived } from "svelte/store";
+import { writable, derived, type Readable } from "svelte/store";
+import { addCareGiver, getCareGiverByUserId } from "../../api/caregiver";
+import { caregiverStore } from "./caregiver-store";
 import { isLoading } from "./loading-store";
 
-export type AuthState = 
-	| 'login' 
-	| 'reset' 
-	| 'mfa' 
-	| 'mfa-setup' 
+export type AuthState =
+	| 'login'
+	| 'reset'
+	| 'mfa'
+	| 'mfa-setup'
 	| 'signout';
 
 export const authStateStore = writable<AuthState>('login');
 export const userNameStore = writable<string>('');
 export const userStore = writable(null);
-export const mfaSetupStore = writable<null | {qr: string, code: string}>(null);
+export const userNames: Readable<Promise<[string, string] | null>> = derived(userStore, async ($user) => {
+	if (!$user) {
+		const attributes = await Auth.userAttributes($user);
+		const userName: string = getUserName(attributes);
+		const userEmail: string = attributes.find(a => a.Name === 'email')?.Value ?? 'noemail';
+
+		return [userName, userEmail] as [string, string];
+	}
+	return null;
+});
+
+export const mfaSetupStore = writable<null | { qr: string, code: string }>(null);
 export const isLoggedIn = derived(authStateStore, (state) => state === 'signout');
 
 
 export async function initializeUser(): Promise<void> {
 	const user = await Auth.currentAuthenticatedUser();
-	const userName = getUserName(await Auth.userAttributes(user)); 
+	const attributes = await Auth.userAttributes(user);
+	const userName = getUserName(attributes);
+	const userEmail = attributes.find(a => a.Name === 'email')?.Value ?? 'noemail';
 
 	userNameStore.set(userName);
 	userStore.set(user);
+
+	const { id, email, name } = { id: user.username, name: userName, email: userEmail };
+
+	let careGiver = await getCareGiverByUserId(id);
+
+	careGiver ??= await addCareGiver(id, email, name);
+
+	caregiverStore.set(careGiver);
 }
 
 const getUserName = (attributes: Array<any>) => attributes.find(a => a.Name === 'nickname')?.Value ?? attributes.find(a => a.Name === 'email')?.Value ?? 'nouser';
@@ -108,7 +131,7 @@ export async function setupOTP(userResponse: any) {
 	isLoading(true);
 	const code = await Auth.setupTOTP(userResponse);
 	const qr = 'otpauth://totp/AWSCognito:' + userResponse.username + '?secret=' + code;
-	mfaSetupStore.set({qr, code});
+	mfaSetupStore.set({ qr, code });
 	authStateStore.set('mfa-setup');
 	userStore.set(userResponse);
 	isLoading(false);

@@ -20,7 +20,10 @@ export const getCareGiver = /* GraphQL */ `
       userId
       email
       name
-      pendingInvites
+      pendingInvites {
+        id
+        name
+      }
       formulaFeeding {
         items {
           when
@@ -75,7 +78,55 @@ export const listCareGivers = /* GraphQL */ `
         userId
         email
         name
-        pendingInvites
+        pendingInvites {
+          id
+          name
+        }
+        formulaFeeding {
+          nextToken
+        }
+        diaperChanges {
+          nextToken
+        }
+        id
+        createdAt
+        updatedAt
+        familyCareGiversId
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const caregiverByUser = /* GraphQL */ `
+  query CaregiverByUser(
+    $userId: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelCareGiverFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    caregiverByUser(
+      userId: $userId
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        family {
+          name
+          id
+          createdAt
+          updatedAt
+        }
+        userId
+        email
+        name
+        pendingInvites {
+          id
+          name
+        }
         formulaFeeding {
           nextToken
         }
@@ -100,7 +151,6 @@ export const getFamily = /* GraphQL */ `
           userId
           email
           name
-          pendingInvites
           id
           createdAt
           updatedAt
@@ -250,7 +300,10 @@ export const getFormulaFeeding = /* GraphQL */ `
         userId
         email
         name
-        pendingInvites
+        pendingInvites {
+          id
+          name
+        }
         formulaFeeding {
           nextToken
         }
@@ -309,7 +362,6 @@ export const listFormulaFeedings = /* GraphQL */ `
           userId
           email
           name
-          pendingInvites
           id
           createdAt
           updatedAt
@@ -362,7 +414,6 @@ export const byFeedingDate = /* GraphQL */ `
           userId
           email
           name
-          pendingInvites
           id
           createdAt
           updatedAt
@@ -415,7 +466,6 @@ export const searchFormulaFeedings = /* GraphQL */ `
           userId
           email
           name
-          pendingInvites
           id
           createdAt
           updatedAt
@@ -474,7 +524,10 @@ export const getDiaperChange = /* GraphQL */ `
         userId
         email
         name
-        pendingInvites
+        pendingInvites {
+          id
+          name
+        }
         formulaFeeding {
           nextToken
         }
@@ -532,7 +585,6 @@ export const listDiaperChanges = /* GraphQL */ `
           userId
           email
           name
-          pendingInvites
           id
           createdAt
           updatedAt
@@ -584,7 +636,6 @@ export const byDiaperChangeDate = /* GraphQL */ `
           userId
           email
           name
-          pendingInvites
           id
           createdAt
           updatedAt
@@ -636,7 +687,6 @@ export const searchDiaperChanges = /* GraphQL */ `
           userId
           email
           name
-          pendingInvites
           id
           createdAt
           updatedAt

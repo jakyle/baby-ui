@@ -3,7 +3,7 @@
 input AMPLIFY {
 	globalAuthRule: AuthRule = { allow: public }
 } # FOR TESTING ONLY!
-type CareGiver
+type Caregiver
 	@model
 	@auth(
 		rules: [
@@ -13,10 +13,10 @@ type CareGiver
 		]
 	) {
 	family: Family @belongsTo @auth(rules: [{ allow: public }, { allow: owner }])
-	userId: String!
+	userId: String! @index(name: "byUser", queryField: "caregiverByUser")
 	email: AWSEmail!
 	name: String
-	pendingInvites: [String]
+	pendingInvites: [PendingFamilyInvite] @hasMany(filter: { caregiverId: { eq: $caregiverId } })
 		@auth(
 			rules: [
 				{ allow: public },
@@ -28,13 +28,21 @@ type CareGiver
 	diaperChanges: [DiaperChange] @hasMany
 }
 
+
 enum Gender {
 	MALE
 	FEMALE
 }
 
+type PendingFamilyInvite @model {
+	caregiverId: ID!,
+	familyId: ID!,
+	familyName: String!
+	caregiver: Caregiver! @belongsTo
+}
+
 type Family @model @auth(rules: [{ allow: public }, { allow: groups, groups: ["family"] }]) {
-	careGivers: [CareGiver] @hasMany
+	caregivers: [Caregiver] @hasMany
 	babies: [Baby] @hasMany
 	name: String!
 }
@@ -58,7 +66,7 @@ type FormulaFeeding
 			{ allow: owner }
 		]
 	) {
-	by: CareGiver! @belongsTo
+	by: Caregiver! @belongsTo
 	when: AWSDateTime! 
 	for: Baby! @belongsTo
 	type: String! @index(name: "byFeedingDate", queryField: "byFeedingDate", sortKeyFields: ["when"])
@@ -82,7 +90,7 @@ type DiaperChange
 			{ allow: owner }
 		]
 	) {
-	by: CareGiver! @belongsTo
+	by: Caregiver! @belongsTo
 	when: AWSDateTime!
 	for: Baby! @belongsTo
 	type: String! @index(name: "byDiaperChangeDate", queryField: "byDiaperChangeDate", sortKeyFields: ["when"])

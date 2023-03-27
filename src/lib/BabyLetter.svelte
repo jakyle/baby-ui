@@ -4,7 +4,30 @@
 	import { classes } from '../util/html-helpers';
 	import { intervalMount } from '../util/svelte-helpers';
 
-	type ColorName = 'fuchsia' | 'yellow' | 'teal' | 'blue' | 'rose' | 'lime' | 'pink' | 'cyan';
+	type ColorName =
+		| 'slate'
+		| 'gray'
+		| 'zinc'
+		| 'neutral'
+		| 'stone'
+		| 'red'
+		| 'orange'
+		| 'amber'
+		| 'yellow'
+		| 'lime'
+		| 'green'
+		| 'emerald'
+		| 'teal'
+		| 'cyan'
+		| 'sky'
+		| 'blue'
+		| 'indigo'
+		| 'violet'
+		| 'purple'
+		| 'fuchsia'
+		| 'pink'
+		| 'rose';
+
 	type TextColor = `text-${ColorName}-200`;
 	type Animation = 'bounce-spring' | 'wiggle';
 
@@ -22,14 +45,24 @@
 	export let animation: Animation = 'bounce-spring';
 
 	const colors: Array<ColorName> = [
-		'fuchsia',
+		'neutral',
+		'red',
+		'orange',
+		'amber',
 		'yellow',
-		'teal',
-		'blue',
-		'rose',
 		'lime',
+		'green',
+		'emerald',
+		'teal',
+		'cyan',
+		'sky',
+		'blue',
+		'indigo',
+		'violet',
+		'purple',
+		'fuchsia',
 		'pink',
-		'cyan'
+		'rose'
 	];
 
 	const getTextColor = (prev: string): TextColor =>
